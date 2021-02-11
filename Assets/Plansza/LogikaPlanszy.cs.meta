@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 10f5f1bf12b39364fa4fe29f944e60af
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - queen: {fileID: 3523643308607488636, guid: 0342d9729ed8dad45b78c7b9f26ca7df, type: 3}
+  - pole: {fileID: 2991631583762543441, guid: a497ba0a98e9eef4384437d0c5ab271d, type: 3}
+  - pasek: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
