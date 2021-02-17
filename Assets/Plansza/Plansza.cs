@@ -11,7 +11,8 @@ public class Plansza : MonoBehaviour
     [SerializeField]
     protected GameObject pole;
 
-    protected float colorMul = 0.5f;
+    protected const float ParzystyMnoznikKoloru = 0.5f;
+    protected Color kolorPolaZablokowanego = new Color(1,0,0);
 
     protected GameObject[][] Pola = new GameObject[WIELKOSC][];
 
@@ -27,7 +28,7 @@ public class Plansza : MonoBehaviour
         get { return mojaKolej; }
         set
         {
-            var rect = pasek.uvRect;
+            var rect = pasek.uvRect; 
             if (value)
             {
                 
@@ -63,13 +64,16 @@ public class Plansza : MonoBehaviour
                 pos.x = -wielkoscPola * WIELKOSC / 2f+wielkoscPola/2f+i*wielkoscPola;
                 pos.y= -wielkoscPola * WIELKOSC / 2f + wielkoscPola / 2f + j *wielkoscPola;
                 tr.localPosition = pos;
-                if ((i + j) % 2 == 0) {
+
+
+                /*if ((i + j) % 2 == 0) {
                     var ri = p.GetComponent<RawImage>();
-                    ri.color *= colorMul;
-                }
+                    ri.color *= PARZYSTY_MNOZNIK_KOLORU;
+                }*/
+                KolorujPole(i, j, false);
 
                 var script=p.AddComponent<Pole>();
-                script.Init(CallbackHandler,i,j);
+                script.Init(ClickCallback, i,j);
 
                 Pola[i][j] = p;
             }
@@ -84,12 +88,21 @@ public class Plansza : MonoBehaviour
 
         MojaKolej = mojaKolej;
     }
+    /*
     protected void CallbackHandler(int x, int y, GameObject obj)
     {
         ClickCallback(x, y, obj);
-    }
+    }*/
     protected virtual void ClickCallback(int x,int y,GameObject obj)
     {
 
+    }
+    protected void KolorujPole(int x,int y,bool zablokowane)
+    {
+        if (zablokowane)
+            Pola[x][y].GetComponent<RawImage>().color = kolorPolaZablokowanego;
+        else Pola[x][y].GetComponent<RawImage>().color = pole.GetComponent<RawImage>().color;
+
+        if ((x + y) % 2 == 0) Pola[x][y].GetComponent<RawImage>().color *= ParzystyMnoznikKoloru;
     }
 }

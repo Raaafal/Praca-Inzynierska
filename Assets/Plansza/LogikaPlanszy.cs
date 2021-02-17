@@ -34,7 +34,7 @@ public class LogikaPlanszy : Plansza
             OdswierzKolory();
         }
     }
-    void Ruch(int x,int y)
+    public void Ruch(int x,int y)
     {
         
         for(int i = 0; i < WIELKOSC; i++)
@@ -61,6 +61,8 @@ public class LogikaPlanszy : Plansza
         {
             for (int j = 0; j < WIELKOSC; j++)
             {
+                KolorujPole(i,j,plansza[i][j] == POLE_ZAJETE || plansza[i][j] % 2 == 1);
+                /*
                 if(plansza[i][j] != POLE_ZAJETE&& plansza[i][j] % 2 == 0)
                 {
                     Pola[i][j].GetComponent<RawImage>().color = pole.GetComponent<RawImage>().color;
@@ -68,8 +70,9 @@ public class LogikaPlanszy : Plansza
                 {
                     Pola[i][j].GetComponent<RawImage>().color = new Color(1f,0f,0f);
                 }
+
                 if ((i + j) % 2 == 0)
-                    Pola[i][j].GetComponent<RawImage>().color *= colorMul;
+                    Pola[i][j].GetComponent<RawImage>().color *= colorMul;*/
             }
 
         }
