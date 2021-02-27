@@ -1,45 +1,90 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LogikaPlanszy : Plansza
+public class LogikaPlanszy : MonoBehaviour
 {
+    [SerializeField]
+    protected const int Wielkosc = 8;
+
     protected const int POLE_ZAJETE = -1;
 
-    protected int [][]plansza=new int[WIELKOSC][];
-    protected new void Start()
+    protected int [][]plansza=new int[Wielkosc][];
+
+    protected Gracz gracz1;
+    protected Gracz gracz2;
+    protected bool ruch=true;
+    protected virtual bool Ruch
     {
-        base.Start();
-        for(int i = 0; i < WIELKOSC; i++)
+        get { return ruch; }
+        set { ruch = value; }
+    }
+    protected virtual void Start()
+    {
+        Ja ja = new Ja();
+        Ja ja2 = new Ja();
+
+        gracz1 = ja;
+        gracz2 = ja2;
+
+        if (gracz1.preferencjeGracza != null)
         {
-            plansza[i] = new int[WIELKOSC];
+            Ruch = gracz1.preferencjeGracza.czyPreferujePierwszyRuch;
+        }
+        if (gracz2.preferencjeGracza != null)
+        {
+            Ruch = !gracz2.preferencjeGracza.czyPreferujePierwszyRuch;
+        }
+
+
+        //base.Start();
+        for(int i = 0; i < Wielkosc; i++)
+        {
+            plansza[i] = new int[Wielkosc];
             /*
-            for (int j = 0; j < WIELKOSC; j++)
+            for (int j = 0; j < Wielkosc; j++)
             {
                 plansza[i][j]=
             }*/
         }
     }
-
+    void OdpytajGraczaORuch()
+    {
+        Gracz gracz = Ruch ? gracz1 : gracz2;
+        var poleRuchu = gracz.WykonajRuch(plansza);
+        if (poleRuchu != Gracz.BrakRuchu)
+        {
+            //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
+            ZarejestrujRuch(poleRuchu.Item1, poleRuchu.Item2,gracz);
+            Ruch = !Ruch;
+            //OdswierzKolory();
+        }
+    }
+    private void Update()
+    {
+        OdpytajGraczaORuch();
+    }
+    /*
     protected override void ClickCallback(int x, int y, GameObject obj)
     {
         if (plansza[x][y] != POLE_ZAJETE&& plansza[x][y]%2==0)
         {
-            var newQueen = Instantiate(queen, transform);
-            newQueen.GetComponent<RectTransform>().position = obj.GetComponent<RectTransform>().position;
+            PostawKrolowa(x, y, Color.white);
 
             MojaKolej = !MojaKolej;
             Ruch(x, y);
             OdswierzKolory();
         }
-    }
-    public void Ruch(int x,int y)
+    }*/
+
+    public virtual void ZarejestrujRuch(int x,int y,Gracz gracz)
     {
         
-        for(int i = 0; i < WIELKOSC; i++)
+        for(int i = 0; i < Wielkosc; i++)
         {
-            for(int j = 0; j < WIELKOSC; j++)
+            for(int j = 0; j < Wielkosc; j++)
             {
                 if (plansza[i][j] != POLE_ZAJETE)
                 {
@@ -55,26 +100,29 @@ public class LogikaPlanszy : Plansza
         }
         plansza[x][y] = POLE_ZAJETE;
     }
+    /*
     void OdswierzKolory()
     {
-        for(int i = 0; i < WIELKOSC; i++)
+        for(int i = 0; i < Wielkosc; i++)
         {
-            for (int j = 0; j < WIELKOSC; j++)
+            for (int j = 0; j < Wielkosc; j++)
             {
                 KolorujPole(i,j,plansza[i][j] == POLE_ZAJETE || plansza[i][j] % 2 == 1);
-                /*
-                if(plansza[i][j] != POLE_ZAJETE&& plansza[i][j] % 2 == 0)
-                {
-                    Pola[i][j].GetComponent<RawImage>().color = pole.GetComponent<RawImage>().color;
-                } else
-                {
-                    Pola[i][j].GetComponent<RawImage>().color = new Color(1f,0f,0f);
-                }
-
-                if ((i + j) % 2 == 0)
-                    Pola[i][j].GetComponent<RawImage>().color *= colorMul;*/
             }
 
         }
+    }*/
+    protected bool[][] MozliweRuchy()
+    {
+        bool[][] zajete = new bool[Wielkosc][];
+        for (int i = 0; i < Wielkosc; i++)
+        {
+            zajete[i] = new bool[Wielkosc];
+            for (int j = 0; j < Wielkosc; j++)
+            {
+                zajete[i][j] = plansza[i][j] == POLE_ZAJETE || plansza[i][j] % 2 == 1;
+            }
+        }
+        return zajete;
     }
 }

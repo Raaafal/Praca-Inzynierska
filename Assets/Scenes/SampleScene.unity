@@ -214,7 +214,6 @@ GameObject:
   m_Component:
   - component: {fileID: 591635333}
   - component: {fileID: 591635334}
-  - component: {fileID: 591635335}
   m_Layer: 5
   m_Name: Plansza
   m_TagString: Untagged
@@ -248,29 +247,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591635332}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfe6f14d7f048ea47be9f9d8a87a98f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  queen: {fileID: 0}
-  pole: {fileID: 2991631583762543441, guid: a497ba0a98e9eef4384437d0c5ab271d, type: 3}
-  pasek: {fileID: 853425172}
---- !u!114 &591635335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591635332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f5f1bf12b39364fa4fe29f944e60af, type: 3}
+  m_Script: {fileID: 11500000, guid: bfe6f14d7f048ea47be9f9d8a87a98f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   queen: {fileID: 3523643308607488636, guid: 0342d9729ed8dad45b78c7b9f26ca7df, type: 3}
   pole: {fileID: 2991631583762543441, guid: a497ba0a98e9eef4384437d0c5ab271d, type: 3}
   pasek: {fileID: 853425172}
+  tekstGracza1: {fileID: 1438924147}
+  tekstGracza2: {fileID: 794477300}
 --- !u!1 &794477298
 GameObject:
   m_ObjectHideFlags: 0
