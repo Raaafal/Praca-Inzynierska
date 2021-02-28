@@ -13,7 +13,9 @@ public class LogikaPlanszy : MonoBehaviour
 
     protected int [][]plansza=new int[Wielkosc][];
 
-    protected Gracz gracz1;
+    protected bool gra = true;
+    
+    protected Gracz gracz1;//śledzimy statystyki dla gracza1
     protected Gracz gracz2;
     protected bool ruch=true;
     protected virtual bool Ruch
@@ -28,6 +30,8 @@ public class LogikaPlanszy : MonoBehaviour
 
         gracz1 = ja;
         gracz2 = ja2;
+
+        var p=Ustawienia.Przeciwnik;
 
         if (gracz1.preferencjeGracza != null)
         {
@@ -54,7 +58,7 @@ public class LogikaPlanszy : MonoBehaviour
     {
         Gracz gracz = Ruch ? gracz1 : gracz2;
         var poleRuchu = gracz.WykonajRuch(plansza);
-        if (poleRuchu != Gracz.BrakRuchu)
+        if (poleRuchu != Gracz.BrakRuchu&&!MozliweRuchy()[poleRuchu.Item1][poleRuchu.Item2])
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
             ZarejestrujRuch(poleRuchu.Item1, poleRuchu.Item2,gracz);
@@ -64,7 +68,20 @@ public class LogikaPlanszy : MonoBehaviour
     }
     private void Update()
     {
-        OdpytajGraczaORuch();
+        if (gra)
+        {
+            OdpytajGraczaORuch();
+
+            if (SprawdzCzyKoniecGry())
+            {
+                gra = false;
+
+                Gracz wygrany = Ruch ? gracz2 : gracz1;
+                
+                //zapisujemy statystyki dla gracza1
+                Statystyki.ZapiszGre(gracz2, wygrany.GetType().Equals(gracz1.GetType()));
+            }
+        }
     }
     /*
     protected override void ClickCallback(int x, int y, GameObject obj)
@@ -124,5 +141,17 @@ public class LogikaPlanszy : MonoBehaviour
             }
         }
         return zajete;
+    }
+    bool SprawdzCzyKoniecGry()
+    {
+        bool[][] zajete = MozliweRuchy();
+        foreach(var tab in zajete)
+        {
+            foreach(var wartosc in tab)
+            {
+                if (!wartosc) return false;
+            }
+        }
+        return true;
     }
 }
