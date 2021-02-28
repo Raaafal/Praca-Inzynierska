@@ -15,7 +15,7 @@ public class Plansza : LogikaPlanszy
     protected const float ParzystyMnoznikKoloru = 0.5f;
     protected Color kolorPolaZablokowanego = new Color(1,0,0);
 
-    protected GameObject[][] Pola = new GameObject[Wielkosc][];
+    protected GameObject[][] Pola;
 
     [SerializeField]
     RawImage pasek;
@@ -85,22 +85,24 @@ public class Plansza : LogikaPlanszy
     // Start is called before the first frame update
     protected override void Start()
     {
-        for (int i = 0; i < Wielkosc; i++)
+        base.Start();
+        Pola = new GameObject[wielkosc][];
+        for (int i = 0; i < wielkosc; i++)
         {
-            Pola[i] = new GameObject[Wielkosc];
+            Pola[i] = new GameObject[wielkosc];
         }
 
         int wielkoscPola = 100;
-        for(int i = 0; i < Wielkosc; i++)
+        for(int i = 0; i < wielkosc; i++)
         {
-            for (int j = 0; j < Wielkosc; j++)
+            for (int j = 0; j < wielkosc; j++)
             {
                 GameObject p = Instantiate(pole,transform);
                 //p.transform.SetParent(transform);
                 var tr=p.GetComponent<RectTransform>();
                 var pos=tr.localPosition;
-                pos.x = -wielkoscPola * Wielkosc / 2f+wielkoscPola/2f+i*wielkoscPola;
-                pos.y= -wielkoscPola * Wielkosc / 2f + wielkoscPola / 2f + j *wielkoscPola;
+                pos.x = -wielkoscPola * wielkosc / 2f+wielkoscPola/2f+i*wielkoscPola;
+                pos.y= -wielkoscPola * wielkosc / 2f + wielkoscPola / 2f + j *wielkoscPola;
                 tr.localPosition = pos;
 
 
@@ -118,7 +120,7 @@ public class Plansza : LogikaPlanszy
                 KolorujPole(i, j, false);
             }
         }
-        int szerPlanszy = Wielkosc * wielkoscPola;
+        int szerPlanszy = wielkosc * wielkoscPola;
         int szerWyswietlacza = Screen.width;
         var rtransform = GetComponent<RectTransform>();
         var skala = rtransform.localScale;
@@ -127,9 +129,9 @@ public class Plansza : LogikaPlanszy
         rtransform.localScale = skala;
 
 
-        Ruch = ruch;//synchronizacja
+        //Ruch = ruch;//synchronizacja
 
-        base.Start();
+        
 
         if (gracz1.czyNasluchujeKlikniec) DodajNasluchiwaczaKlikniec(gracz1.NasluchujKlikniec);
         if (gracz2.czyNasluchujeKlikniec) DodajNasluchiwaczaKlikniec(gracz2.NasluchujKlikniec);
@@ -181,9 +183,9 @@ public class Plansza : LogikaPlanszy
     void OdswierzKolory()
     {
         bool[][] zajete = MozliweRuchy();
-        for (int i = 0; i < Wielkosc; i++)
+        for (int i = 0; i < wielkosc; i++)
         {
-            for (int j = 0; j < Wielkosc; j++)
+            for (int j = 0; j < wielkosc; j++)
             {
                 KolorujPole(i, j,zajete[i][j]);
             }

@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class LogikaPlanszy : MonoBehaviour
 {
     [SerializeField]
-    protected const int Wielkosc = 8;
+    protected int wielkosc = 8;
 
-    protected const int POLE_ZAJETE = -1;
+    protected const int PoleZajete = -1;
 
-    protected int [][]plansza=new int[Wielkosc][];
+    protected int [][]plansza;
 
     protected bool gra = true;
     
@@ -25,14 +25,17 @@ public class LogikaPlanszy : MonoBehaviour
     }
     protected virtual void Start()
     {
-        Ja ja = new Ja();
-        Ja ja2 = new Ja();
+        //Ja ja = new Ja();
+        //Ja ja2 = new Ja();
 
-        gracz1 = ja;
-        gracz2 = ja2;
+        gracz1 = new Ja();
+        //gracz1.preferencjeGracza = new PreferencjeGracza();
+        //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
+        //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
+        gracz2 = Ustawienia.Przeciwnik;
 
-        var p=Ustawienia.Przeciwnik;
-
+        
+        /*
         if (gracz1.preferencjeGracza != null)
         {
             Ruch = gracz1.preferencjeGracza.czyPreferujePierwszyRuch;
@@ -40,15 +43,18 @@ public class LogikaPlanszy : MonoBehaviour
         if (gracz2.preferencjeGracza != null)
         {
             Ruch = !gracz2.preferencjeGracza.czyPreferujePierwszyRuch;
-        }
+        }*/
+        Ruch= Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
+        wielkosc = Ustawienia.WielkoscPlanszy;
 
 
+        plansza = new int[wielkosc][];
         //base.Start();
-        for(int i = 0; i < Wielkosc; i++)
+        for (int i = 0; i < wielkosc; i++)
         {
-            plansza[i] = new int[Wielkosc];
+            plansza[i] = new int[wielkosc];
             /*
-            for (int j = 0; j < Wielkosc; j++)
+            for (int j = 0; j < wielkosc; j++)
             {
                 plansza[i][j]=
             }*/
@@ -86,7 +92,7 @@ public class LogikaPlanszy : MonoBehaviour
     /*
     protected override void ClickCallback(int x, int y, GameObject obj)
     {
-        if (plansza[x][y] != POLE_ZAJETE&& plansza[x][y]%2==0)
+        if (plansza[x][y] != PoleZajete&& plansza[x][y]%2==0)
         {
             PostawKrolowa(x, y, Color.white);
 
@@ -99,11 +105,11 @@ public class LogikaPlanszy : MonoBehaviour
     public virtual void ZarejestrujRuch(int x,int y,Gracz gracz)
     {
         
-        for(int i = 0; i < Wielkosc; i++)
+        for(int i = 0; i < wielkosc; i++)
         {
-            for(int j = 0; j < Wielkosc; j++)
+            for(int j = 0; j < wielkosc; j++)
             {
-                if (plansza[i][j] != POLE_ZAJETE)
+                if (plansza[i][j] != PoleZajete)
                 {
                     int localX = x - i;
                     int localY = y - j;
@@ -115,29 +121,29 @@ public class LogikaPlanszy : MonoBehaviour
                 }
             }
         }
-        plansza[x][y] = POLE_ZAJETE;
+        plansza[x][y] = PoleZajete;
     }
     /*
     void OdswierzKolory()
     {
-        for(int i = 0; i < Wielkosc; i++)
+        for(int i = 0; i < wielkosc; i++)
         {
-            for (int j = 0; j < Wielkosc; j++)
+            for (int j = 0; j < wielkosc; j++)
             {
-                KolorujPole(i,j,plansza[i][j] == POLE_ZAJETE || plansza[i][j] % 2 == 1);
+                KolorujPole(i,j,plansza[i][j] == PoleZajete || plansza[i][j] % 2 == 1);
             }
 
         }
     }*/
     protected bool[][] MozliweRuchy()
     {
-        bool[][] zajete = new bool[Wielkosc][];
-        for (int i = 0; i < Wielkosc; i++)
+        bool[][] zajete = new bool[wielkosc][];
+        for (int i = 0; i < wielkosc; i++)
         {
-            zajete[i] = new bool[Wielkosc];
-            for (int j = 0; j < Wielkosc; j++)
+            zajete[i] = new bool[wielkosc];
+            for (int j = 0; j < wielkosc; j++)
             {
-                zajete[i][j] = plansza[i][j] == POLE_ZAJETE || plansza[i][j] % 2 == 1;
+                zajete[i][j] = plansza[i][j] == PoleZajete || plansza[i][j] % 2 == 1;
             }
         }
         return zajete;

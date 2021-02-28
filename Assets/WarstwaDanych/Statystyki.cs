@@ -20,4 +20,10 @@ public class Statystyki
     {
         return przeciwnik.GetType().Name + (wszystkieCzyWygrane ? "wszystkie_" : "wygrane_");
     }
+    public static void Resetuj(Gracz przeciwnik)
+    {
+        PlayerPrefs.DeleteKey(Klucz(przeciwnik, false));
+        PlayerPrefs.DeleteKey(Klucz(przeciwnik, true));
+
+    }
 }
