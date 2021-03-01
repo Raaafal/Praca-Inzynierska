@@ -32,7 +32,7 @@ public class LogikaPlanszy : MonoBehaviour
         //gracz1.preferencjeGracza = new PreferencjeGracza();
         //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
         //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
-        gracz2 = Ustawienia.Przeciwnik;
+        gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
 
         
         /*
@@ -85,7 +85,7 @@ public class LogikaPlanszy : MonoBehaviour
                 Gracz wygrany = Ruch ? gracz2 : gracz1;
                 
                 //zapisujemy statystyki dla gracza1
-                Statystyki.ZapiszGre(gracz2, wygrany.GetType().Equals(gracz1.GetType()));
+                Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
             }
         }
     }

@@ -22,7 +22,7 @@ public class Ustawienia
 
     private static Ruch pierwszyRuch;
     private static int wielkoscPlanszy;
-    private static Gracz przeciwnik;
+    private static Type przeciwnik;
     static public Ruch PierwszyRuch { get { return pierwszyRuch; }
         set { pierwszyRuch=value;
             PlayerPrefs.SetInt(ruchKlucz, (int)value);
@@ -33,13 +33,13 @@ public class Ustawienia
             PlayerPrefs.SetInt(wielkoscKlucz, wielkoscPlanszy);
         }
     }
-    static public Gracz Przeciwnik
+    static public Type Przeciwnik
     {
         get { return przeciwnik; }
         set
         {
             przeciwnik = value;
-            PlayerPrefs.SetString(przeciwnikKlucz, przeciwnik.GetType().Name);
+            PlayerPrefs.SetString(przeciwnikKlucz, przeciwnik.Name);
         }
     }
     static Ustawienia()
@@ -51,8 +51,10 @@ public class Ustawienia
         }
         wielkoscPlanszy = PlayerPrefs.GetInt(wielkoscKlucz,DomyslnaWielkosc);
 
-        przeciwnik = (Gracz)Activator.CreateInstance(Type.GetType(PlayerPrefs.GetString(przeciwnikKlucz, DomyslnyPrzeciwnik)));
-        
+        //przeciwnik = (Gracz)Activator.CreateInstance(Type.GetType(PlayerPrefs.GetString(przeciwnikKlucz, DomyslnyPrzeciwnik)));
+        przeciwnik = Type.GetType(PlayerPrefs.GetString(przeciwnikKlucz, DomyslnyPrzeciwnik));
+
+
         //string typ = przeciwnik.GetType().Name;
     }
     static Ruch WylosujRuch()

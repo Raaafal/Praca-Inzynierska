@@ -121,11 +121,11 @@ public class Plansza : LogikaPlanszy
             }
         }
         int szerPlanszy = wielkosc * wielkoscPola;
-        int szerWyswietlacza = Screen.width;
+        int szerWyswietlacza = (int)transform.parent.GetComponent<RectTransform>().rect.width;// Screen.width;
         var rtransform = GetComponent<RectTransform>();
         var skala = rtransform.localScale;
-        skala.x *= (float)szerWyswietlacza / szerPlanszy;
-        skala.y *= (float)szerWyswietlacza / szerPlanszy;
+        skala.x = (float)szerWyswietlacza / szerPlanszy;
+        skala.y = (float)szerWyswietlacza / szerPlanszy;
         rtransform.localScale = skala;
 
 
@@ -148,6 +148,7 @@ public class Plansza : LogikaPlanszy
             gracz1.kolorKrolowej = kolorKrolowejDrugiRuch;
         }
         pasekAktywnegoGracza = new PasekAktywnegoGracza(gracz1.nazwa, gracz2.nazwa, pasek,tekstGracza1,tekstGracza2);
+        pasekAktywnegoGracza.SygnalizujCzyjRuch(Ruch);
     }
     /*
     protected void CallbackHandler(int x, int y, GameObject obj)

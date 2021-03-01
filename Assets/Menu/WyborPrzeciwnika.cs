@@ -23,11 +23,13 @@ public class WyborPrzeciwnika : MonoBehaviour
         }
         wybor.options = opcje;
 
-        Ustawienia.Przeciwnik = (Gracz)Activator.CreateInstance(KtoryPrzeciwnik());
+        Ustawienia.Przeciwnik = KtoryPrzeciwnik();
     }
     public void Wybor()
     {
-        Ustawienia.Przeciwnik = (Gracz)Activator.CreateInstance(KtoryPrzeciwnik());
+        //Ustawienia.Przeciwnik = (Gracz)Activator.CreateInstance(KtoryPrzeciwnik());
+        Ustawienia.Przeciwnik = KtoryPrzeciwnik();
+
     }
     public Type KtoryPrzeciwnik()
     {
