@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gracz
 {
     public PreferencjeGracza preferencjeGracza;
-    public int[] obslugiwaneRozmiaryPlansz { get; }= new int[] { 3, 4, 5, 6, 8, 10 };
+    public int[] obslugiwaneRozmiaryPlansz { get; }= new int[] { 3, 4, 5, 6,8 ,10 };
     public Color kolorKrolowej { get; set; } = new Color(1, 1, 1, 1);
     public static System.Tuple<int, int> BrakRuchu { get; } = new System.Tuple<int, int>(-1, -1);
     public virtual System.Tuple<int,int> WykonajRuch(int [][]plansza)
@@ -17,4 +17,5 @@ public class Gracz
     {
     }
     public string nazwa="Przeciwnik";
+    public string grajZ = "Przeciwnikiem";
 }

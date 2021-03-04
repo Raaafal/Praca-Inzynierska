@@ -9,7 +9,7 @@ public class LogikaPlanszy : MonoBehaviour
     [SerializeField]
     protected int wielkosc = 8;
 
-    protected const int PoleZajete = -1;
+    public const int PoleZajete = -1;
 
     protected int [][]plansza;
 
@@ -143,7 +143,7 @@ public class LogikaPlanszy : MonoBehaviour
             zajete[i] = new bool[wielkosc];
             for (int j = 0; j < wielkosc; j++)
             {
-                zajete[i][j] = plansza[i][j] == PoleZajete || plansza[i][j] % 2 == 1;
+                zajete[i][j] = !CzyWolne(plansza[i][j]);// plansza[i][j] == PoleZajete || plansza[i][j] % 2 == 1;
             }
         }
         return zajete;
@@ -159,5 +159,9 @@ public class LogikaPlanszy : MonoBehaviour
             }
         }
         return true;
+    }
+    public static bool CzyWolne(int p)
+    {
+        return p != PoleZajete && p % 2 == 0;
     }
 }

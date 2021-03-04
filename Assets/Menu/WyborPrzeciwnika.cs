@@ -10,7 +10,7 @@ public class WyborPrzeciwnika : MonoBehaviour
     [SerializeField]
     Dropdown wybor;
 
-    Type[] przeciwnicy = new Type[] { typeof(Ja) };
+    Type[] przeciwnicy = new Type[] { typeof(Ja),typeof(LosowyRuch) };
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class WyborPrzeciwnika : MonoBehaviour
         for(int i=0;i<przeciwnicy.Length;i++)
         {
             var Typ = przeciwnicy[i];
-            opcje.Add(new Dropdown.OptionData(((Gracz)Activator.CreateInstance(Typ)).nazwa));
+            opcje.Add(new Dropdown.OptionData(((Gracz)Activator.CreateInstance(Typ)).grajZ));
 
         }
         wybor.options = opcje;

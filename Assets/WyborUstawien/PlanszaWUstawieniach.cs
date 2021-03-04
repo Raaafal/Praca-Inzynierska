@@ -16,13 +16,14 @@ public class PlanszaWUstawieniach : MonoBehaviour
     {
         klik?.Invoke(wielkosc);
     }
+    /*
     private void Start()
     {
         if (transform.parent != null) return;
         Init(8, 4, null);
-    }
+    }*/
 
-    void Init(int wielkosc,float wielkoscNaEkranie,System.Action<int> klik)
+    public void Init(int wielkosc,float wielkoscNaEkranie,System.Action<int> klik)
     {
         this.klik = klik;
         this.wielkosc = wielkosc;

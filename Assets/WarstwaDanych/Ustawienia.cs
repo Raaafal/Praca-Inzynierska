@@ -24,8 +24,10 @@ public class Ustawienia
     private static int wielkoscPlanszy;
     private static Type przeciwnik;
     static public Ruch PierwszyRuch { get { return pierwszyRuch; }
-        set { pierwszyRuch=value;
-            PlayerPrefs.SetInt(ruchKlucz, (int)value);
+        set {
+            if (value == Ruch.Losowy) pierwszyRuch = WylosujRuch();
+            else pierwszyRuch =value;
+            PlayerPrefs.SetInt(ruchKlucz, (int)pierwszyRuch);
         }
     }
     static public int WielkoscPlanszy { get { return wielkoscPlanszy; }

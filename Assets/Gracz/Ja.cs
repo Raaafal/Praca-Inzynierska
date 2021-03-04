@@ -32,6 +32,7 @@ public class Ja : Gracz
     {
         //var pg = new PreferencjeGracza();
         nazwa = "Ja";
+        grajZ = "Sobą";
         czyNasluchujeKlikniec = true;
 
     }

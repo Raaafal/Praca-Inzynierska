@@ -7,6 +7,6 @@ public class Graj : MonoBehaviour
 {
     public void Klik()
     {
-        SceneManager.LoadScene("Gra");
+        SceneManager.LoadScene("Ustawienia");
     }
 }
