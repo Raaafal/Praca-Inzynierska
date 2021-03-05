@@ -143,14 +143,14 @@ public class Plansza : LogikaPlanszy
 
         if (ruch)
         {
-            gracz1.kolorKrolowej = kolorKrolowejPierwszyRuch;
-            gracz2.kolorKrolowej = kolorKrolowejDrugiRuch;
+            gracz1.KolorKrolowej = kolorKrolowejPierwszyRuch;
+            gracz2.KolorKrolowej = kolorKrolowejDrugiRuch;
 
             
         }else
         {
-            gracz2.kolorKrolowej = kolorKrolowejPierwszyRuch;
-            gracz1.kolorKrolowej = kolorKrolowejDrugiRuch;
+            gracz2.KolorKrolowej = kolorKrolowejPierwszyRuch;
+            gracz1.KolorKrolowej = kolorKrolowejDrugiRuch;
         }
         pasekAktywnegoGracza = new PasekAktywnegoGracza(gracz1.nazwa, gracz2.nazwa, pasek,tekstGracza1,tekstGracza2);
         pasekAktywnegoGracza.SygnalizujCzyjRuch(Ruch);
@@ -182,7 +182,7 @@ public class Plansza : LogikaPlanszy
     }
     public override void ZarejestrujRuch(int x, int y, Gracz gracz)
     {
-        PostawKrolowa(x, y, gracz.kolorKrolowej);
+        PostawKrolowa(x, y, gracz.KolorKrolowej);
         base.ZarejestrujRuch(x, y, gracz);
         OdswierzKolory();
     }

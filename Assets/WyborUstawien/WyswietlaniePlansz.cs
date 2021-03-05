@@ -10,7 +10,7 @@ public class WyswietlaniePlansz : MonoBehaviour
     GameObject plansza;
     private void Start()
     {
-        int[] wielkosci = ((Gracz)System.Activator.CreateInstance(Ustawienia.Przeciwnik)).obslugiwaneRozmiaryPlansz;
+        int[] wielkosci = ((Gracz)System.Activator.CreateInstance(Ustawienia.Przeciwnik)).ObslugiwaneRozmiaryPlansz;
 
         var poleDlaPlansz = GetComponent<PolygonCollider2D>().GetPath(1);
         Vector2 rozmiarPolaDlaPlansz = new Vector2(Vector2.Distance(poleDlaPlansz[0], poleDlaPlansz[1]), Vector2.Distance(poleDlaPlansz[2], poleDlaPlansz[1]));
