@@ -35,6 +35,11 @@ public class Plansza : LogikaPlanszy
     [SerializeField]
     Text tekstGracza2;
 
+    [SerializeField]
+    GameObject komunikat;
+    [SerializeField]
+    Text tekstKomunikatu;
+
     /*
     bool mojaKolej = true;
     protected bool MojaKolej
@@ -197,5 +202,20 @@ public class Plansza : LogikaPlanszy
     {
         EventKlikniecia += (x,y)=> klikniecie(x,y);
     }
+    protected override void KoniecGry()
+    {
+        base.KoniecGry();
+        Gracz wygrany = Ruch ? gracz2 : gracz1;
 
+        tekstKomunikatu.text = "Zwycięzca:\n" + wygrany.nazwa;
+
+        StartCoroutine(NaKoniec());
+    }
+    IEnumerator NaKoniec()
+    {
+        yield return new WaitForSeconds(0.5f);
+        komunikat.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+    }
 }

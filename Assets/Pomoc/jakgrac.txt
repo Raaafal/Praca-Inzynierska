@@ -1,1 +1,16 @@
-test test
+Gra w “n królowych mod 2”
+		Zasady gry zostały opracowane przez Tricia Muldoon Brown i Abrahim Ladha i opublikowane w Sciendo tu link do bibliografii (w końcowej wersji pracy). Ta gra jest modyfikacją gry w “n królowych", utrzymuje większość jej zasad, zmieniając tylko zasadę dotyczącą pól wolnych i zablokowanych. 
+	Do gry wykorzystywane są figury szachowe, a dokładniej hetmany, znane pod potoczną nazwą królowych. Wykorzystywane są ze względu na wzór ruchów, jakie może wykonywać. W tej modyfikacji, pola zablokowane przez jednego hetmana bez ,, są odblokowywane przez drugiego, trzeci ponownie je blokuje, itd.
+Choć modyfikacja nie jest zbyt duża, całkowicie zmienia rozgrywkę, nadając jej niezwykłą dynamikę względem oryginału. W w oryginalnym wariancie gryoryginale liczba wolnych pól stale maleje, w tej wersji może wzrastać.
+Zasady gry:
+Gra przeznaczona jest dla dwóch graczy.
+Gracze kładą królowekrólową na planszę na zmianę.
+Plansza ma kształt kwadratu podzielonego nazbudowanego z kwadratowych pól.
+Na jednym polu może znajdować się tylko jedna królowa.
+Królowa może zostać położona tylko na wolne pole.
+Pole, na którym znajduje się królowa jest zajęte.
+Pole, które nie jest zajęte i znajduje się w zasięgu parzystej liczby królowych jest wolne.
+Pole, które nie jest zajęte i jest w zasięgu nieparzystej liczby królowych jest zablokowane
+Zasięg królowej to kolumna, wiersz oraz ukosy pod kątem 45°, w których znajduje się królowa.
+Gracz, który nie może wykonać ruchu przegrywa.
+Gracz, który wykonał ostatni ruch wygrywa.

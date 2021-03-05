@@ -23,7 +23,10 @@ public class WyborPrzeciwnika : MonoBehaviour
         }
         wybor.options = opcje;
 
-        Ustawienia.Przeciwnik = KtoryPrzeciwnik();
+        int index = przeciwnicy.ToList().IndexOf(Ustawienia.Przeciwnik);
+        if (index == -1) Ustawienia.Przeciwnik = KtoryPrzeciwnik();
+        else wybor.value=index;
+        //Ustawienia.Przeciwnik = KtoryPrzeciwnik();
     }
     public void Wybor()
     {

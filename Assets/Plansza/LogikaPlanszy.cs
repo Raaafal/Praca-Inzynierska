@@ -80,14 +80,18 @@ public class LogikaPlanszy : MonoBehaviour
 
             if (SprawdzCzyKoniecGry())
             {
-                gra = false;
-
-                Gracz wygrany = Ruch ? gracz2 : gracz1;
-                
-                //zapisujemy statystyki dla gracza1
-                Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
+                KoniecGry();
             }
         }
+    }
+    protected virtual void KoniecGry()
+    {
+        gra = false;
+
+        Gracz wygrany = Ruch ? gracz2 : gracz1;
+
+        //zapisujemy statystyki dla gracza1
+        Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
     }
     /*
     protected override void ClickCallback(int x, int y, GameObject obj)
