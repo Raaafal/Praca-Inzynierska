@@ -60,7 +60,8 @@ public class PlanszaWUstawieniach : MonoBehaviour
                 scale.y *= wielkoscPola;
                 tr.localScale = scale;
 
-                p.GetComponent<SpriteShapeRenderer>().color = (i + j) % 2 == 0 ? Color.white : Color.black;
+                //p.GetComponent<SpriteShapeRenderer>().color = (i + j) % 2 == 0 ? Color.white : Color.black;
+                p.GetComponent<MeshRenderer>().material.color= (i + j) % 2 == 0 ? Color.white : Color.black; 
 
                 /*if ((i + j) % 2 == 0) {
                     var ri = p.GetComponent<RawImage>();

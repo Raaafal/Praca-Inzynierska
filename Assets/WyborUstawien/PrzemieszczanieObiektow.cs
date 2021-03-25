@@ -15,6 +15,8 @@ public class PrzemieszczanieObiektow : MonoBehaviour
     private void Start()
     {
         Physics2D.maxTranslationSpeed = 10f;
+        QualitySettings.vSyncCount = 1;
+        //Application.targetFrameRate = 60;
     }
 
     private void FixedUpdate()
@@ -30,8 +32,13 @@ public class PrzemieszczanieObiektow : MonoBehaviour
             }
         }
         var rig = GetComponent<Rigidbody2D>();
-        float centralnaSila = 2f;
+        float centralnaSila = 2.5f;
         rig.AddForce((punktCentralny-(Vector2)transform.position).normalized*centralnaSila, ForceMode2D.Force);
+
+
+        //dodanie dodadkowej siły dążącej do ustawienia obiektów na prostej x=0 w celu zachowania symetrii
+        rig.AddForce(new Vector2(-Mathf.Sign(transform.position.x)*Mathf.Min( 0.1f,Mathf.Pow( Mathf.Abs(0.5f/transform.position.x),3f)),0f), ForceMode2D.Force);
+        //rig.AddForce(Vector2.down, ForceMode2D.Force);
     }
     float Sila(float odleglosc)
     {
