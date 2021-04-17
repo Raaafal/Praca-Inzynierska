@@ -12,8 +12,8 @@ public class Plansza : LogikaPlanszy
     [SerializeField]
     protected GameObject pole;
 
-    protected const float ParzystyMnoznikKoloru = 0.5f;
-    protected Color kolorPolaZablokowanego = new Color(1,0,0);
+    protected const float ParzystyMnoznikKoloru = 0.9f;
+    protected Color kolorPolaZablokowanego = new Color(1f,0.3f,0.3f);
 
     protected GameObject[][] Pola;
 
@@ -168,7 +168,7 @@ public class Plansza : LogikaPlanszy
     {
         if (zablokowane)
             Pola[x][y].GetComponent<RawImage>().color = kolorPolaZablokowanego;
-        else Pola[x][y].GetComponent<RawImage>().color = pole.GetComponent<RawImage>().color;
+        else Pola[x][y].GetComponent<RawImage>().color = new Color(0.7f,0.7f,0.7f);//pole.GetComponent<RawImage>().color;
 
         if ((x + y) % 2 == 0) Pola[x][y].GetComponent<RawImage>().color *= ParzystyMnoznikKoloru;
     }
