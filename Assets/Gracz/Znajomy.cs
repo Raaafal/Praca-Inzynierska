@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Znajomy : Gracz
 {
-    public string nazwa = "Znajomy";
-    public string grajZ = "Znajomym";
+    public Znajomy() {
+        nazwa = "Znajomy";
+        grajZ = "Znajomym";
+    }
     bool wyslanyRuch = false;
     override
     public int[] ObslugiwaneRozmiaryPlansz

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-abstract public class Gracz
+public class Gracz
 {
     public PreferencjeGracza preferencjeGracza;
     public virtual int[] ObslugiwaneRozmiaryPlansz { get; } = new int[] { 3, 4, 5, 6, 8, 10 };
@@ -25,5 +25,5 @@ abstract public class Gracz
     {
     }
     public string nazwa = "Przeciwnik";
-    static public string grajZ = "Przeciwnikiem";
+    public string grajZ = "Przeciwnikiem";
 }

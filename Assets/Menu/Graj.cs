@@ -11,9 +11,11 @@ public class Graj : MonoBehaviour
     public Zaproszenie zaproszenie;
     public void Klik()
     {
-        Debug.Log(zaproszenie==null);
-        Tuple<IPAddress[], int> serwery=zaproszenie.DekodujZaproszenie();
-        Polaczenie.Polacz(serwery.Item1,serwery.Item2);
+        if (zaproszenie.isActiveAndEnabled)
+        {
+            Tuple<IPAddress[], int> serwery = zaproszenie.DekodujZaproszenie();
+            Polaczenie.Polacz(serwery.Item1, serwery.Item2);
+        }
         SceneManager.LoadScene("Ustawienia");
     }
 }
