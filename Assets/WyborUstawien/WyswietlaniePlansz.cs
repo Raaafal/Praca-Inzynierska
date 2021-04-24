@@ -6,11 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class WyswietlaniePlansz : MonoBehaviour
 {
+    bool ready = false;
     [SerializeField]
     GameObject plansza;
-    private void Start()
+    private void Update()
     {
+        if (ready)
+            return;
+
         int[] wielkosci = ((Gracz)System.Activator.CreateInstance(Ustawienia.Przeciwnik)).ObslugiwaneRozmiaryPlansz;
+
+        if (wielkosci == null)
+            return;
+
+        ready = true;
 
         var poleDlaPlansz = GetComponent<PolygonCollider2D>().GetPath(1);
         Vector2 rozmiarPolaDlaPlansz = new Vector2(Vector2.Distance(poleDlaPlansz[0], poleDlaPlansz[1]), Vector2.Distance(poleDlaPlansz[2], poleDlaPlansz[1]));

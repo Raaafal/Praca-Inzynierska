@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Pomoc.unity
     guid: a8034cf6be2904044946950a62585539
   - enabled: 1
-    path: Assets/Scenes/Ustawienia.unity
+    path: Assets/Scenes/Laczenie.unity
     guid: 22aaf7e169b80ec4089a3c770ee61da7
+  - enabled: 1
+    path: Assets/Scenes/Ustawienia.unity
+    guid: fa478ac65b8ec8a4ba1754ce9ed180e9
   m_configObjects: {}

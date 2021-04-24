@@ -12,8 +12,19 @@ public class LogikaPlanszy : MonoBehaviour
     public const int PoleZajete = -1;
 
     protected int [][]plansza;
+    public virtual int[][] Plansza
+    {
+        get { return plansza; }
+    }
 
     protected bool gra = true;
+
+    protected System.Tuple<int, int> ostatniRuch=Gracz.BrakRuchu;
+    public virtual System.Tuple<int, int> OstatniRuch
+    {
+        get { return ostatniRuch; }
+        set { ostatniRuch = value; }
+    }
     
     protected Gracz gracz1;//śledzimy statystyki dla gracza1
     protected Gracz gracz2;
@@ -23,17 +34,19 @@ public class LogikaPlanszy : MonoBehaviour
         get { return ruch; }
         set { ruch = value; }
     }
+
     protected virtual void Start()
     {
         //Ja ja = new Ja();
         //Ja ja2 = new Ja();
 
         gracz1 = new Ja();
+        gracz1.Inicjalizuj();
         //gracz1.preferencjeGracza = new PreferencjeGracza();
         //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
         //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
         gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
-
+        gracz2.Inicjalizuj();
         
         /*
         if (gracz1.preferencjeGracza != null)
@@ -63,12 +76,13 @@ public class LogikaPlanszy : MonoBehaviour
     void OdpytajGraczaORuch()
     {
         Gracz gracz = Ruch ? gracz1 : gracz2;
-        var poleRuchu = gracz.WykonajRuch(plansza);
-        if (poleRuchu != Gracz.BrakRuchu&&!MozliweRuchy()[poleRuchu.Item1][poleRuchu.Item2])
+        Tuple<int,int> wykonanyRuch = gracz.WykonajRuch(this);
+        if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.Item1][wykonanyRuch.Item2])
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
-            ZarejestrujRuch(poleRuchu.Item1, poleRuchu.Item2,gracz);
+            ZarejestrujRuch(wykonanyRuch.Item1, wykonanyRuch.Item2,gracz);
             Ruch = !Ruch;
+            ostatniRuch = wykonanyRuch;
             //OdswierzKolory();
         }
     }
@@ -87,7 +101,8 @@ public class LogikaPlanszy : MonoBehaviour
     protected virtual void KoniecGry()
     {
         gra = false;
-
+        gracz1.Zakoncz(this);
+        gracz2.Zakoncz(this);
         Gracz wygrany = Ruch ? gracz2 : gracz1;
 
         //zapisujemy statystyki dla gracza1

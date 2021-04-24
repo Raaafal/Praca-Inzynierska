@@ -9,8 +9,15 @@ public class WyborPrzeciwnika : MonoBehaviour
 {
     [SerializeField]
     Dropdown wybor;
+    public InputField poleZaproszenia;
+    public Button przyciskZaproszenia;
+    public GameObject panelZaproszenia;
 
-    Type[] przeciwnicy = new Type[] { typeof(Ja),typeof(LosowyRuch) };
+    Type[] przeciwnicy = new Type[] {
+        typeof(Ja),
+        typeof(LosowyRuch),
+        typeof(Znajomy)
+    };
 
     private void Start()
     {
@@ -27,11 +34,20 @@ public class WyborPrzeciwnika : MonoBehaviour
         if (index == -1) Ustawienia.Przeciwnik = KtoryPrzeciwnik();
         else wybor.value=index;
         //Ustawienia.Przeciwnik = KtoryPrzeciwnik();
+        Wybor();
     }
     public void Wybor()
     {
         //Ustawienia.Przeciwnik = (Gracz)Activator.CreateInstance(KtoryPrzeciwnik());
         Ustawienia.Przeciwnik = KtoryPrzeciwnik();
+        if (KtoryPrzeciwnik().Equals(typeof(Znajomy)))
+        {
+            panelZaproszenia.SetActive(true);
+        }
+        else
+        {
+            panelZaproszenia.SetActive(false);
+        }
 
     }
     public Type KtoryPrzeciwnik()
