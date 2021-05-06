@@ -17,7 +17,6 @@ public class LogikaPlanszy : MonoBehaviour
         }
         gracz1 = g1;
         gracz2 = g2;
-        Ruch = false;
     }
     [SerializeField]
     protected int wielkosc = 8;
@@ -41,8 +40,16 @@ public class LogikaPlanszy : MonoBehaviour
     
     protected Gracz gracz1;//śledzimy statystyki dla gracza1
     protected Gracz gracz2;
+    public Gracz Gracz1
+    {
+        get { return gracz1; }
+    }
+    public Gracz Gracz2
+    {
+        get { return gracz2; }
+    }
     protected bool ruch=true;
-    protected virtual bool Ruch
+    public virtual bool Ruch
     {
         get { return ruch; }
         set { ruch = value; }
@@ -120,7 +127,7 @@ public class LogikaPlanszy : MonoBehaviour
         Gracz wygrany = Ruch ? gracz2 : gracz1;
 
         //zapisujemy statystyki dla gracza1
-        Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
+        //Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
         return wygrany;
     }
     public Gracz Tura()

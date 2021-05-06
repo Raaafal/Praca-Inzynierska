@@ -36,4 +36,11 @@ public class Ja : Gracz
         czyNasluchujeKlikniec = true;
         bot = false;
     }
+    override
+    public void Zakoncz(LogikaPlanszy plansza)
+    {
+
+        Gracz wygrany = plansza.Ruch ? plansza.Gracz2 : plansza.Gracz1;
+        Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+    }
 }

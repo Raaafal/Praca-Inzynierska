@@ -63,7 +63,7 @@ public class Plansza : LogikaPlanszy
         }
     }*/
 
-    protected override bool Ruch
+    public override bool Ruch
     {
         get { return ruch; }
         set {
