@@ -16,7 +16,8 @@ public class WyborPrzeciwnika : MonoBehaviour
     Type[] przeciwnicy = new Type[] {
         typeof(Ja),
         typeof(LosowyRuch),
-        typeof(Znajomy)
+        typeof(Znajomy),
+        typeof(MonteCarlo)
     };
 
     private void Start()

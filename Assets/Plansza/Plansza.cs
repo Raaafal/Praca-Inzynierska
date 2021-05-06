@@ -202,7 +202,7 @@ public class Plansza : LogikaPlanszy
     {
         EventKlikniecia += (x,y)=> klikniecie(x,y);
     }
-    protected override void KoniecGry()
+    protected override Gracz KoniecGry()
     {
         base.KoniecGry();
         Gracz wygrany = Ruch ? gracz2 : gracz1;
@@ -210,6 +210,7 @@ public class Plansza : LogikaPlanszy
         tekstKomunikatu.text = "Zwycięzca:\n" + wygrany.nazwa;
 
         StartCoroutine(NaKoniec());
+        return wygrany;
     }
     IEnumerator NaKoniec()
     {

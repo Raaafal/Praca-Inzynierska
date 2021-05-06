@@ -26,4 +26,5 @@ public class Gracz
     }
     public string nazwa = "Przeciwnik";
     public string grajZ = "Przeciwnikiem";
+    protected bool bot = true;
 }

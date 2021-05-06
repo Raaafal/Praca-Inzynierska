@@ -34,6 +34,6 @@ public class Ja : Gracz
         nazwa = "Ja";
         grajZ = "Sobą";
         czyNasluchujeKlikniec = true;
-
+        bot = false;
     }
 }

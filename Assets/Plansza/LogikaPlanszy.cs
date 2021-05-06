@@ -6,6 +6,18 @@ using UnityEngine.UI;
 
 public class LogikaPlanszy : MonoBehaviour
 {
+    public LogikaPlanszy() { }
+    public LogikaPlanszy(LogikaPlanszy plansza,Gracz g1,Gracz g2)
+    {
+        wielkosc = plansza.wielkosc;
+        this.plansza = new int[wielkosc][];
+        for (int i = 0; i < plansza.plansza.Length; ++i)
+        {
+            this.plansza[i] = (int[])plansza.plansza[i].Clone();
+        }
+        gracz1 = g1;
+        gracz2 = g2;
+    }
     [SerializeField]
     protected int wielkosc = 8;
 
@@ -39,13 +51,14 @@ public class LogikaPlanszy : MonoBehaviour
     {
         //Ja ja = new Ja();
         //Ja ja2 = new Ja();
-
-        gracz1 = new Ja();
+        if (gracz1 == null)
+            gracz1 = new Ja();
         gracz1.Inicjalizuj();
         //gracz1.preferencjeGracza = new PreferencjeGracza();
         //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
         //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
-        gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
+        if (gracz2 == null)
+            gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
         gracz2.Inicjalizuj();
         
         /*
@@ -98,7 +111,7 @@ public class LogikaPlanszy : MonoBehaviour
             }
         }
     }
-    protected virtual void KoniecGry()
+    protected virtual Gracz KoniecGry()
     {
         gra = false;
         gracz1.Zakoncz(this);
@@ -107,6 +120,36 @@ public class LogikaPlanszy : MonoBehaviour
 
         //zapisujemy statystyki dla gracza1
         Statystyki.ZapiszGre(gracz2.GetType(), wygrany.GetType().Equals(gracz1.GetType()));
+        return wygrany;
+    }
+    public Gracz Tura()
+    {
+        if (gra)
+        {
+            OdpytajGraczaORuch();
+
+            if (SprawdzCzyKoniecGry())
+            {
+                return KoniecGry();
+            }
+        }
+        return null;
+    }
+    public Gracz Tury(int tury)
+    {
+        for (int tura = 0; tura < tury; ++tura)
+        {
+            Gracz zwyciezca=Tura();
+            if (zwyciezca != null)
+                return zwyciezca;
+        }
+        return null;
+    }
+    public Gracz Symuluj()
+    {
+        Gracz zwyciezca = null;
+        while ((zwyciezca = Tura()) == null) ;
+        return zwyciezca;
     }
     /*
     protected override void ClickCallback(int x, int y, GameObject obj)
