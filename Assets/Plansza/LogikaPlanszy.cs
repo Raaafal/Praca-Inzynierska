@@ -17,6 +17,7 @@ public class LogikaPlanszy : MonoBehaviour
         }
         gracz1 = g1;
         gracz2 = g2;
+        Ruch = false;
     }
     [SerializeField]
     protected int wielkosc = 8;

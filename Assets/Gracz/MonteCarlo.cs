@@ -77,8 +77,8 @@ public class MonteCarlo : Gracz
         else
         {
             czasOdZapytania = 0f;
-            Tuple<int, int> najleprszyRuch=BrakRuchu;
-            Statystyki najleszaOcena = new Statystyki(0, 1);
+            Tuple<int, int> najleprszyRuch= ocenyRuchów[0].Item1;
+            Statystyki najleszaOcena = ocenyRuchów[0].Item2;
             foreach(var ruch in ocenyRuchów)
             {
                 Debug.Log("odczytanie oceny: " + ruch.Item2.wygrane + " " + ruch.Item2.przegrane);
