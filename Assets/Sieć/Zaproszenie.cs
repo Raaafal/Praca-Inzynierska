@@ -28,7 +28,7 @@ public class Zaproszenie:MonoBehaviour
         foreach(IPAddress ip in adresy)
         {
             if(ip.ToString().Contains('.'))
-            ips[i++] = IPnaZaproszenie(ip);
+            ips[i++] = ip.ToString();
         }
         if (port != Polaczenie.domyslnyPort)
         {
