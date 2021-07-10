@@ -18,6 +18,15 @@ public class LogikaPlanszy : MonoBehaviour
         gracz1 = g1;
         gracz2 = g2;
     }
+    public LogikaPlanszy(int wielkosc,Gracz g1,Gracz g2)
+    {
+        this.wielkosc = wielkosc;
+        plansza = new int[wielkosc][];
+        for (int i = 0; i < wielkosc; ++i)
+            plansza[i] = new int[wielkosc];
+        gracz1 = g1;
+        gracz2 = g2;
+    }
     [SerializeField]
     protected int wielkosc = 8;
 
