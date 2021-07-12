@@ -162,7 +162,7 @@ public class LogikaAreny : MonoBehaviour
             statystyka.RejestrujWynik(zwyciezca.GetType() == uczestnicy[ObecniGracze.pierwszy]);
             return false;
         }
-        statystyka.ruchy += Convert.ToInt32(ostatniRuch == ((plansza.OstatniRuch.Item1,plansza.OstatniRuch.Item2)));
+        statystyka.ruchy += Convert.ToInt32(ostatniRuch != ((x:plansza.OstatniRuch.Item1,y:plansza.OstatniRuch.Item2)));
         ostatniRuch = (plansza.OstatniRuch.Item1, plansza.OstatniRuch.Item2);
         return true;
     }
