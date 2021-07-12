@@ -185,4 +185,11 @@ public class LogikaAreny : MonoBehaviour
         }
         return false;
     }
+    public void DoGry(int pierwszy, int drugi)
+    {
+        if (rozgrywki.IndexOf((pierwszy, drugi))<0)
+        {
+            rozgrywki.Add((pierwszy, drugi));
+        } ;
+    }
 }

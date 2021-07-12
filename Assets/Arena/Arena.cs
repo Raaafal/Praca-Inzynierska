@@ -46,6 +46,11 @@ public class Arena : LogikaAreny
         pokaz.drugi = Drugi.value;
         PokazStatystyki();
     }
+    public void DoGry()
+    {
+        DoGry(Pierwszy.value,Drugi.value);
+        
+    }
     public void PokazStatystyki()
     {
         var statystyka = statystyki[pokaz.pierwszy, pokaz.drugi];
