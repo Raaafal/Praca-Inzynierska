@@ -191,6 +191,15 @@ public class LogikaAreny : MonoBehaviour
         if (rozgrywki.IndexOf((pierwszy, drugi))<0)
         {
             rozgrywki.Add((pierwszy, drugi));
+        }
+    }
+    public void ZGry(int pierwszy, int drugi)
+    {
+        int pozycja = rozgrywki.IndexOf((pierwszy, drugi));
+        if (pozycja>=0)
+        {
+            rozgrywki[pozycja]=rozgrywki[rozgrywki.Count-1];
+            rozgrywki.RemoveAt(rozgrywki.Count-1);
         } ;
     }
 }

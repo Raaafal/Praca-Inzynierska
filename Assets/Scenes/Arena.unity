@@ -327,6 +327,7 @@ MonoBehaviour:
   DrugiWygraneProcentowo: {fileID: 1931258978}
   DrugiIteracje: {fileID: 1817968829}
   Ruchy: {fileID: 353776930}
+  Obecni: {fileID: 1771547940}
 --- !u!1 &197276492
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wygrane
+  m_Text: 0
 --- !u!222 &199707142
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -727,13 +728,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 7
     m_MaxSize: 70
-    m_Alignment: 2
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wygrane
+  m_Text: 0
 --- !u!222 &353776931
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -885,7 +886,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wygrane
+  m_Text: 0
 --- !u!222 &403446563
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1064,7 +1065,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 115997119}
         m_MethodName: ZmienPierwszego
-        m_Mode: 3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 115997119}
+        m_MethodName: AktualizujPrzyciskObecnych
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1446,7 +1458,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: i/s
+  m_Text: 0
 --- !u!222 &709924431
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2101,7 +2113,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 115997119}
         m_MethodName: ZmienDrugiego
-        m_Mode: 3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 115997119}
+        m_MethodName: AktualizujPrzyciskObecnych
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2589,7 +2612,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wygrane
+  m_Text: 0
 --- !u!222 &1632424233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2775,7 +2798,7 @@ GameObject:
   - component: {fileID: 1771547941}
   - component: {fileID: 1771547940}
   m_Layer: 5
-  m_Name: obecne
+  m_Name: obecni
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2846,6 +2869,28 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 115997119}
         m_MethodName: DoGry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 115997119}
+        m_MethodName: ZGry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 115997119}
+        m_MethodName: AktualizujPrzyciskObecnych
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3085,7 +3130,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: i/s
+  m_Text: 0
 --- !u!222 &1817968830
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3237,7 +3282,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wygrane
+  m_Text: 0
 --- !u!222 &1931258979
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3682,6 +3727,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 115997119}
         m_MethodName: WszyscyDoGry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 115997119}
+        m_MethodName: AktualizujPrzyciskObecnych
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
