@@ -106,7 +106,7 @@ public class LogikaAreny : MonoBehaviour
             Drugi.iteracje += Convert.ToInt32(!pierwszy);
         }
     }
-    protected int wielkoscPlanszy = 5;
+    protected int wielkoscPlanszy = 4;
     protected List<(int pierwszy,int drugi)> rozgrywki=new List<(int pierwszy, int drugi)>();
     protected int obecniGracze = 0;
     public (int pierwszy, int drugi) ObecniGracze {
@@ -159,10 +159,11 @@ public class LogikaAreny : MonoBehaviour
         statystyka.RejestrujIteracje(plansza.Ruch);
         if (zwyciezca != null)
         {
-            statystyka.RejestrujWynik(zwyciezca.GetType() == uczestnicy[ObecniGracze.pierwszy]);
+            statystyka.RejestrujWynik(zwyciezca == plansza.Gracz1);
+            ostatniRuch = (-1, -1);
             return false;
         }
-        statystyka.ruchy += Convert.ToInt32(ostatniRuch != ((x:plansza.OstatniRuch.Item1,y:plansza.OstatniRuch.Item2)));
+        statystyka.ruchy += Convert.ToInt32(ostatniRuch != (x: plansza.OstatniRuch.Item1, y: plansza.OstatniRuch.Item2));
         ostatniRuch = (plansza.OstatniRuch.Item1, plansza.OstatniRuch.Item2);
         return true;
     }
