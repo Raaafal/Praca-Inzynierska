@@ -5,12 +5,12 @@ public class Gracz
     public PreferencjeGracza preferencjeGracza;
     public virtual int[] ObslugiwaneRozmiaryPlansz { get; } = new int[] { 3, 4, 5, 6, 8, 10 };
     public Color KolorKrolowej { get; set; } = new Color(1, 1, 1, 1);
-    public static System.Tuple<int, int> BrakRuchu { get; } = new System.Tuple<int, int>(-1, -1);
-    public virtual System.Tuple<int, int> WykonajRuch(int[][] plansza)
+    public static (int x, int y) BrakRuchu { get; } = (-1, -1);
+    public virtual (int x, int y) WykonajRuch(int[][] plansza)
     {
         return BrakRuchu;
     }
-    public virtual System.Tuple<int, int> WykonajRuch(LogikaPlanszy plansza)
+    public virtual (int x, int y) WykonajRuch(LogikaPlanszy plansza)
     {
         return WykonajRuch(plansza.Plansza);
     }

@@ -21,10 +21,10 @@ public class Ja : Gracz
         if(czyMojRuch)
         klikniecie = new Klik(x, y);
     }
-    public override Tuple<int, int> WykonajRuch(int[][] plansza)
+    public override (int x, int y) WykonajRuch(int[][] plansza)
     {
         czyMojRuch = klikniecie == null;
-        var ret= klikniecie==null?Gracz.BrakRuchu:new Tuple<int, int>(klikniecie.x,klikniecie.y);
+        var ret = klikniecie == null ? Gracz.BrakRuchu : (x: klikniecie.x, y: klikniecie.y);
         klikniecie = null;
         return ret;
     }

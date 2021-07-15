@@ -28,8 +28,8 @@ public class StatystykiUI : MonoBehaviour
 
         var statystyki = Statystyki.Wczytaj(aktualnyPrzeciwnik);
         if(przeciwnik.Equals(typeof(Ja)))
-            tekst.text = statystyki.Item2 + " ▄▀";
-        else tekst.text = statystyki.Item1 + "♔/" + statystyki.Item2 + " ▄▀";
+            tekst.text = statystyki.rozegrane + " ▄▀";
+        else tekst.text = statystyki.wygrane + "♔/" + statystyki.rozegrane + " ▄▀";
     }
     public void Resetuj()
     {

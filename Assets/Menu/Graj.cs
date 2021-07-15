@@ -13,8 +13,8 @@ public class Graj : MonoBehaviour
     {
         if (zaproszenie.isActiveAndEnabled)
         {
-            Tuple<IPAddress[], int> serwery = zaproszenie.DekodujZaproszenie();
-            Polaczenie.Polacz(serwery.Item1, serwery.Item2);
+            (IPAddress[] adresy, int port) serwery = zaproszenie.DekodujZaproszenie();
+            Polaczenie.Polacz(serwery.adresy, serwery.port);
         }
         SceneManager.LoadScene("Ustawienia");
     }

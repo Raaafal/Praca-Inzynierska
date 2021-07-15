@@ -7,7 +7,7 @@ public class LosowyRuch : Gracz
     float czasOdpowiedzi = 0.5f;
 
     float czasOdZapytania = 0f;
-    public override System.Tuple<int, int> WykonajRuch(int[][] plansza)
+    public override (int x, int y) WykonajRuch(int[][] plansza)
     {
         if (czasOdZapytania > czasOdpowiedzi)
         {
@@ -30,7 +30,7 @@ public class LosowyRuch : Gracz
                     {
                         if (los == 0)
                         {
-                            return new System.Tuple<int, int>(i, j);
+                            return (x: i, y: j);
                         }
                         los--;
                     }

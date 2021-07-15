@@ -31,8 +31,8 @@ public class LogikaPlanszy : MonoBehaviour
 
     protected bool gra = true;
 
-    protected System.Tuple<int, int> ostatniRuch=Gracz.BrakRuchu;
-    public virtual System.Tuple<int, int> OstatniRuch
+    protected (int x, int y) ostatniRuch =Gracz.BrakRuchu;
+    public virtual (int x, int y) OstatniRuch
     {
         get { return ostatniRuch; }
         set { ostatniRuch = value; }
@@ -97,11 +97,11 @@ public class LogikaPlanszy : MonoBehaviour
     void OdpytajGraczaORuch()
     {
         Gracz gracz = Ruch ? gracz1 : gracz2;
-        Tuple<int,int> wykonanyRuch = gracz.WykonajRuch(this);
-        if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.Item1][wykonanyRuch.Item2])
+        (int x, int y) wykonanyRuch = gracz.WykonajRuch(this);
+        if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.x][wykonanyRuch.y])
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
-            ZarejestrujRuch(wykonanyRuch.Item1, wykonanyRuch.Item2,gracz);
+            ZarejestrujRuch(wykonanyRuch.x, wykonanyRuch.y,gracz);
             Ruch = !Ruch;
             ostatniRuch = wykonanyRuch;
             //OdswierzKolory();

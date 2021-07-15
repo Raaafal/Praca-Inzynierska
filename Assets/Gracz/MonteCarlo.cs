@@ -42,9 +42,9 @@ public class MonteCarlo : Gracz
             return a.przegrane * b.przegrane  < b.wygrane * a.wygrane;
         }
     }
-    List<Tuple<Tuple<int, int>, Statystyki>> ocenyRuchów;
+    List<((int x, int y) ruch, Statystyki statystyki)> ocenyRuchów;
 
-    public override System.Tuple<int, int> WykonajRuch(LogikaPlanszy plansza)
+    public override (int x, int y) WykonajRuch(LogikaPlanszy plansza)
     {
         if (czasOdZapytania < czasOdpowiedzi )
         {
@@ -54,11 +54,11 @@ public class MonteCarlo : Gracz
             if (ocenyRuchów == null)
             {
                 Debug.Log("ładuj ruchy");
-                ocenyRuchów = new List<Tuple<Tuple<int, int>, Statystyki>>();
+                ocenyRuchów = new List<((int x, int y) ruch, Statystyki statystyki)>();
                 for (int i = 0; i < plansza.Plansza.Length; ++i)
                     for (int j = 0; j < plansza.Plansza[i].Length; ++j)
                         if (LogikaPlanszy.CzyWolne(plansza.Plansza[i][j]))
-                            ocenyRuchów.Add(new Tuple<Tuple<int, int>, Statystyki>(new Tuple<int, int>(i, j), new Statystyki(0, 0)));
+                            ocenyRuchów.Add((ruch: (x: i, y: j), statystyki: new Statystyki(0, 0)));
                 Debug.Log("brak ruchów");
             }
             foreach(var ruch in ocenyRuchów)
@@ -67,9 +67,9 @@ public class MonteCarlo : Gracz
                 Debug.Log("testuj ruch" + ruch);
                 Gracz ja= new LosowyRuch(), rywal=new LosowyRuch();
                 symulacja = new LogikaPlanszy(plansza,ja,rywal);
-                symulacja.ZarejestrujRuch(ruch.Item1.Item1, ruch.Item1.Item2, null);
+                symulacja.ZarejestrujRuch(ruch.ruch.x, ruch.ruch.y, null);
                 ruch.Item2.Rejestruj(symulacja.Symuluj()!=ja);
-                Debug.Log("po rejestracji: " + ruch.Item2.wygrane + " " + ruch.Item2.przegrane);
+                Debug.Log("po rejestracji: " + ruch.statystyki.wygrane + " " + ruch.statystyki.przegrane);
 
             }
             return BrakRuchu;
@@ -77,24 +77,24 @@ public class MonteCarlo : Gracz
         else
         {
             czasOdZapytania = 0f;
-            Tuple<int, int> najleprszyRuch= ocenyRuchów[0].Item1;
-            Statystyki najleszaOcena = ocenyRuchów[0].Item2;
+            (int x, int y) najleprszyRuch = ocenyRuchów[0].ruch;
+            Statystyki najleszaOcena = ocenyRuchów[0].statystyki;
             foreach(var ruch in ocenyRuchów)
             {
-                Debug.Log("odczytanie oceny: " + ruch.Item2.wygrane + " " + ruch.Item2.przegrane);
+                Debug.Log("odczytanie oceny: " + ruch.Item2.wygrane + " " + ruch.statystyki.przegrane);
                 try
                 {
-                    Debug.Log("ocena: " + ruch.Item2.Ocena + " => " + ruch.Item1);
+                    Debug.Log("ocena: " + ruch.statystyki.Ocena + " => " + ruch.ruch);
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("ocena: nieocenione => " + ruch.Item1);
+                    Debug.Log("ocena: nieocenione => " + ruch.ruch);
 
                 }
-                if (najleszaOcena < ruch.Item2)
+                if (najleszaOcena < ruch.statystyki)
                 {
-                    najleszaOcena = ruch.Item2;
-                    najleprszyRuch = ruch.Item1;
+                    najleszaOcena = ruch.statystyki;
+                    najleprszyRuch = ruch.ruch;
                 }
             }
                     Debug.Log("najlepsza ocena: " + najleszaOcena + " => " + najleprszyRuch);

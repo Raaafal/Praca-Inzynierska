@@ -37,7 +37,7 @@ public class Zaproszenie:MonoBehaviour
         PoleZaproszenia.text= string.Join(",",ips,0,i) ;
         Debug.Log("adresy: "+ string.Join(",", ips));
     }
-    public Tuple<IPAddress[],int> DekodujZaproszenie()
+    public (IPAddress[] adresy,int port) DekodujZaproszenie()
     {
         string zaproszenie = PoleZaproszenia.text;
         string[] elementy=zaproszenie.Split(',');
@@ -61,7 +61,7 @@ public class Zaproszenie:MonoBehaviour
                 adresy[i] = IPAddress.Parse(elementy[i]);
             }
         }
-        return new Tuple<IPAddress[],int>(adresy,port);
+        return (adresy,port);
     }
     public string IPnaZaproszenie(IPAddress ip)
     /*
