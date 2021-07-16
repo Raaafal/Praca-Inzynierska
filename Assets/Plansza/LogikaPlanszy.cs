@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LogikaPlanszy : MonoBehaviour
+public class LogikaPlanszy
 {
     public LogikaPlanszy() { }
     public LogikaPlanszy(LogikaPlanszy plansza,Gracz g1,Gracz g2)
@@ -20,6 +20,7 @@ public class LogikaPlanszy : MonoBehaviour
     }
     [SerializeField]
     protected int wielkosc = 8;
+    public int Wielkosc => wielkosc;
 
     public const int PoleZajete = -1;
 
@@ -55,7 +56,20 @@ public class LogikaPlanszy : MonoBehaviour
         set { ruch = value; }
     }
 
-    protected virtual void Start()
+    public delegate void DelegatWykonajRuch(int x, int y, Gracz gracz);
+    event DelegatWykonajRuch EventWykonanyRuch;
+    public delegate void DelegatKoniecGry();
+    event DelegatKoniecGry EventKoniecGry;
+    public void DodajObserwatoraWykonanychRuchow(DelegatWykonajRuch obserwator)
+    {
+        EventWykonanyRuch += obserwator;
+    }
+    public void DodajObserwatoraKońcaGry(DelegatKoniecGry obserwator)
+    {
+        EventKoniecGry += obserwator;
+    }
+
+    public virtual void Start()
     {
         //Ja ja = new Ja();
         //Ja ja2 = new Ja();
@@ -102,12 +116,13 @@ public class LogikaPlanszy : MonoBehaviour
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
             ZarejestrujRuch(wykonanyRuch.x, wykonanyRuch.y,gracz);
+            EventWykonanyRuch?.Invoke(wykonanyRuch.x,wykonanyRuch.y,gracz);
             Ruch = !Ruch;
             ostatniRuch = wykonanyRuch;
             //OdswierzKolory();
         }
     }
-    private void Update()
+    public void Update()
     {
         if (gra)
         {
@@ -119,11 +134,12 @@ public class LogikaPlanszy : MonoBehaviour
             }
         }
     }
-    protected virtual Gracz KoniecGry()
+    public virtual Gracz KoniecGry()
     {
         gra = false;
         gracz1.Zakoncz(this);
         gracz2.Zakoncz(this);
+        EventKoniecGry?.Invoke();
         Gracz wygrany = Ruch ? gracz2 : gracz1;
 
         //zapisujemy statystyki dla gracza1
@@ -205,7 +221,7 @@ public class LogikaPlanszy : MonoBehaviour
 
         }
     }*/
-    protected bool[][] MozliweRuchy()
+    public bool[][] MozliweRuchy()
     {
         bool[][] zajete = new bool[wielkosc][];
         for (int i = 0; i < wielkosc; i++)
