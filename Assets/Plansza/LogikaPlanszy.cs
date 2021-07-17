@@ -6,8 +6,22 @@ using UnityEngine.UI;
 
 public class LogikaPlanszy
 {
-    public LogikaPlanszy() { }
-    public LogikaPlanszy(LogikaPlanszy plansza,Gracz g1,Gracz g2)
+    public LogikaPlanszy()
+    {
+        gracz1 = new Ja();
+        gracz1.Inicjalizuj();
+        gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
+        gracz2.Inicjalizuj();
+        Ruch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
+
+        wielkosc = Ustawienia.WielkoscPlanszy;
+        plansza = new int[wielkosc][];
+        for (int i = 0; i < wielkosc; i++)
+        {
+            plansza[i] = new int[wielkosc];
+        }
+    }
+    public LogikaPlanszy(LogikaPlanszy plansza, Gracz g1, Gracz g2)
     {
         wielkosc = plansza.wielkosc;
         this.plansza = new int[wielkosc][];
@@ -17,6 +31,20 @@ public class LogikaPlanszy
         }
         gracz1 = g1;
         gracz2 = g2;
+    }
+    public LogikaPlanszy(int wielkosc, Gracz g1, Gracz g2,bool pierwszy=true)
+    {
+        this.wielkosc = wielkosc;
+        plansza = new int[wielkosc][];
+        for (int i = 0; i < wielkosc; i++)
+        {
+            plansza[i] = new int[wielkosc];
+        }
+        gracz1 = g1;
+        gracz1.Inicjalizuj();
+        gracz2 = g2;
+        gracz2.Inicjalizuj();
+        ruch = pierwszy;
     }
     [SerializeField]
     protected int wielkosc = 8;
@@ -69,45 +97,6 @@ public class LogikaPlanszy
         EventKoniecGry += obserwator;
     }
 
-    public virtual void Start()
-    {
-        //Ja ja = new Ja();
-        //Ja ja2 = new Ja();
-        if (gracz1 == null)
-            gracz1 = new Ja();
-        gracz1.Inicjalizuj();
-        //gracz1.preferencjeGracza = new PreferencjeGracza();
-        //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
-        //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
-        if (gracz2 == null)
-            gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
-        gracz2.Inicjalizuj();
-        
-        /*
-        if (gracz1.preferencjeGracza != null)
-        {
-            Ruch = gracz1.preferencjeGracza.czyPreferujePierwszyRuch;
-        }
-        if (gracz2.preferencjeGracza != null)
-        {
-            Ruch = !gracz2.preferencjeGracza.czyPreferujePierwszyRuch;
-        }*/
-        Ruch= Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
-        wielkosc = Ustawienia.WielkoscPlanszy;
-
-
-        plansza = new int[wielkosc][];
-        //base.Start();
-        for (int i = 0; i < wielkosc; i++)
-        {
-            plansza[i] = new int[wielkosc];
-            /*
-            for (int j = 0; j < wielkosc; j++)
-            {
-                plansza[i][j]=
-            }*/
-        }
-    }
     void OdpytajGraczaORuch()
     {
         Gracz gracz = Ruch ? gracz1 : gracz2;
@@ -120,18 +109,6 @@ public class LogikaPlanszy
             Ruch = !Ruch;
             ostatniRuch = wykonanyRuch;
             //OdswierzKolory();
-        }
-    }
-    public void Update()
-    {
-        if (gra)
-        {
-            OdpytajGraczaORuch();
-
-            if (SprawdzCzyKoniecGry())
-            {
-                KoniecGry();
-            }
         }
     }
     public virtual Gracz KoniecGry()

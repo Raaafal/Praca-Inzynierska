@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Plansza : MonoBehaviour
 {
-    protected LogikaPlanszy logikaPlanszy = new LogikaPlanszy();
+    protected LogikaPlanszy logikaPlanszy;
 
    [SerializeField]
     protected GameObject queen;
@@ -94,15 +94,21 @@ public class Plansza : MonoBehaviour
 
     protected void Update()
     {
-        logikaPlanszy.Update();
+        logikaPlanszy.Tura();
     }
 
     // Start is called before the first frame update
     protected void Start()
     {
+        logikaPlanszy=new LogikaPlanszy(
+            Ustawienia.WielkoscPlanszy,
+            new Ja(),
+            (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik),
+            Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy
+        );
         logikaPlanszy.DodajObserwatoraWykonanychRuchow( ZarejestrujRuch);
         logikaPlanszy.DodajObserwatoraKońcaGry( ()=> KoniecGry());
-        logikaPlanszy.Start();
+
         Pola = new GameObject[wielkosc][];
         for (int i = 0; i < wielkosc; i++)
         {
