@@ -65,7 +65,7 @@ public class MonteCarlo : Gracz
             {
                 Debug.Log("symuluj");
                 Debug.Log("testuj ruch" + ruch);
-                Gracz ja= new LosowyRuch(), rywal=new LosowyRuch();
+                Gracz ja= new LosowyRuch(0), rywal=new LosowyRuch(0);
                 symulacja = new LogikaPlanszy(plansza,ja,rywal);
                 symulacja.ZarejestrujRuch(ruch.Item1.Item1, ruch.Item1.Item2, null);
                 ruch.Item2.Rejestruj(symulacja.Symuluj()!=ja);
