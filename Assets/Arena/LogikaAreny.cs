@@ -59,7 +59,7 @@ public class LogikaAreny : MonoBehaviour
                 return ruchy / Rozegrane;
             }
         }
-        public int SrodnioIteracjiPirewszego
+        public int SrodnioIteracjiPierwszego
         {
             get
             {

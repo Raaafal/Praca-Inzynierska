@@ -76,7 +76,7 @@ public class Arena : LogikaAreny
         var statystyka = statystyki[pokaz.pierwszy, pokaz.drugi];
         PierwszyWygrane.text = statystyka.Wygrane.ToString();
         PierwszyWygraneProcentowo.text = statystyka.WygraneProcent.ToString();
-        PierwszyIteracje.text = statystyka.SrodnioIteracjiDrugiego.ToString();
+        PierwszyIteracje.text = statystyka.SrodnioIteracjiPierwszego.ToString();
         DrugiWygrane.text = statystyka.Przegrane.ToString();
         DrugiWygraneProcentowo.text = statystyka.PrzegraneProcent.ToString();
         DrugiIteracje.text = statystyka.SrodnioIteracjiDrugiego.ToString();
