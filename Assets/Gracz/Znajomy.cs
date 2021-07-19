@@ -8,6 +8,7 @@ public class Znajomy : Gracz
     public Znajomy() {
         nazwa = "Znajomy";
         grajZ = "Znajomym";
+        bot = false;
     }
     bool wyslanyRuch = false;
     override

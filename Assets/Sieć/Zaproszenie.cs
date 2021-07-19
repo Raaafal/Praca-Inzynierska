@@ -63,15 +63,27 @@ public class Zaproszenie:MonoBehaviour
         }
         return new Tuple<IPAddress[],int>(adresy,port);
     }
-    public void IPnaZaproszenie(IPAddress ip)
+    public string IPnaZaproszenie(IPAddress ip)
+    /*
+        w zaproszen nie mogą występować podobne znaki
+            - 0 O
+            - 1 l I
+            - VV W
+        adresy IP o skróconej formie
+            - adresy lokalne w klasach A,B,C
+     */
     {
-        string znaki = "ABCDEFGHIJKLMNOPRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        string znaki = "ABCDEFGHJKLMNPRSTUVXYZabcdefghijkmnopqrstuvxyz0123456789";
         string ret = "";
         int wartosc = BitConverter.ToInt32( ip.GetAddressBytes(),0);
+        int limit = 0;
         {
             ret += znaki[wartosc % znaki.Length];
             wartosc /= znaki.Length;
-        }
+            limit++;
+            Debug.Log("ret=" + ret+"\nreszta cyfr=" + wartosc + "\niter=" + limit);
+        }while (limit<10) ;
+        return ret;
 
     }
     
