@@ -10,81 +10,19 @@ public class Zaproszenie:MonoBehaviour
 {
     public InputField PoleZaproszenia;
     public Button PrzyciskZaproszenia;
-    private string[] adresyIP= { };
-    public void Start()
-    {
-        //DontDestroyOnLoad(this);
-    }
-
-    // Update is called once per frame
-   
-
-    public void WyenerujZaproszenie()
+    protected const int domyslnyPort=7878;
+    protected LogikaZaproszenia logikaZaproszenia= new LogikaZaproszenia(domyslnyPort);
+    public int DomyslnyPort => domyslnyPort;
+    public void WygenerujZaproszenie()
     {
         int port = Polaczenie.PostawSerwer();
         IPAddress[] adresy = Dns.GetHostAddresses(Dns.GetHostName());
-        string[] ips = new string[adresy.Length + 1];
-        int i = 0;
-        foreach(IPAddress ip in adresy)
-        {
-            if(ip.ToString().Contains('.'))
-            ips[i++] = ip.ToString();
-        }
-        if (port != Polaczenie.domyslnyPort)
-        {
-            ips[i++] = port.ToString();
-        }
-        PoleZaproszenia.text= string.Join(",",ips,0,i) ;
-        Debug.Log("adresy: "+ string.Join(",", ips));
+        PoleZaproszenia.text= logikaZaproszenia.WygenerujZaproszenie(adresy,port);
     }
     public (IPAddress[] adresy,int port) DekodujZaproszenie()
     {
         string zaproszenie = PoleZaproszenia.text;
-        string[] elementy=zaproszenie.Split(',');
-        int port;
-        IPAddress[] adresy;
-        if (elementy[elementy.Length - 1].Contains<Char>('.')) {
-            port = Polaczenie.domyslnyPort;
-            adresy = new IPAddress[elementy.Length];
-            int i = 0;
-            foreach(string ip in elementy)
-            {
-                adresy[i++] = IPAddress.Parse(ip);
-            }
-        }
-        else
-        {
-            port = int.Parse(elementy[elementy.Length - 1]);
-            adresy = new IPAddress[elementy.Length-1];
-            for(int i=0; i < elementy.Length - 1; ++i)
-            {
-                adresy[i] = IPAddress.Parse(elementy[i]);
-            }
-        }
-        return (adresy,port);
-    }
-    public string IPnaZaproszenie(IPAddress ip)
-    /*
-        w zaproszen nie mogą występować podobne znaki
-            - 0 O
-            - 1 l I
-            - VV W
-        adresy IP o skróconej formie
-            - adresy lokalne w klasach A,B,C
-     */
-    {
-        string znaki = "ABCDEFGHJKLMNPRSTUVXYZabcdefghijkmnopqrstuvxyz0123456789";
-        string ret = "";
-        int wartosc = BitConverter.ToInt32( ip.GetAddressBytes(),0);
-        int limit = 0;
-        {
-            ret += znaki[wartosc % znaki.Length];
-            wartosc /= znaki.Length;
-            limit++;
-            Debug.Log("ret=" + ret+"\nreszta cyfr=" + wartosc + "\niter=" + limit);
-        }while (limit<10) ;
-        return ret;
-
+        return logikaZaproszenia.DekodujZaproszenie(zaproszenie);
     }
     
 }

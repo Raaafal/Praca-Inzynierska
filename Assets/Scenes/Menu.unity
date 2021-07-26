@@ -2895,6 +2895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PoleZaproszenia: {fileID: 249642695}
+  PrzyciskZaproszenia: {fileID: 0}
 --- !u!1 &2036883640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3067,7 +3068,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2028912148}
-        m_MethodName: WyenerujZaproszenie
+        m_MethodName: WygenerujZaproszenie
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
