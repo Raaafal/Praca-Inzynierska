@@ -24,9 +24,14 @@ public class Ja : Gracz
     public override (int x, int y) WykonajRuch(int[][] plansza)
     {
         czyMojRuch = klikniecie == null;
-        var ret = klikniecie == null ? Gracz.BrakRuchu : (x: klikniecie.x, y: klikniecie.y);
+        var ruch =  Gracz.BrakRuchu;
+        if (!czyMojRuch)
+        {
+            ruch = (klikniecie.x, klikniecie.y);
+            zatwierdzRuch();
+        }
         klikniecie = null;
-        return ret;
+        return ruch;
     }
     public Ja():base()
     {
@@ -35,6 +40,7 @@ public class Ja : Gracz
         grajZ = "Sobą";
         czyNasluchujeKlikniec = true;
         bot = false;
+        Ograniczenia.MaksCzasNaRuch = Single.PositiveInfinity;
     }
     override
     public void Zakoncz(LogikaPlanszy plansza)

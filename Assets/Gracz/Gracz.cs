@@ -68,12 +68,17 @@ public class Gracz
     {
         return pozostalyCzas <= 0 || (Ograniczenia.MaksIteracji != 0 && iteracja >= Ograniczenia.MaksIteracji);
     }
+    public void zatwierdzRuch()
+    {
+        pozostalyCzas = 0;
+    }
     public bool czyNasluchujeKlikniec = false;
     public virtual void NasluchujKlikniec(int x, int y)
     {
     }
     public virtual void Inicjalizuj()
     {
+        pozostalyCzas = Ograniczenia.MaksCzasNaRuch;
     }
     public virtual void Zakoncz(LogikaPlanszy plansza)
     {
