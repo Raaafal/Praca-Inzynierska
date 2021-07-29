@@ -64,7 +64,7 @@ public class Gracz
         return BrakRuchu;
 
     }
-    bool CzyOstatniaTura()
+    public bool CzyOstatniaIteracja()
     {
         return pozostalyCzas <= 0 || (Ograniczenia.MaksIteracji != 0 && iteracja >= Ograniczenia.MaksIteracji);
     }

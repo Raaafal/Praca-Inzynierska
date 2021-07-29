@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class LosowyRuch : Gracz
 {
-    float czasOdpowiedzi = 0.5f;
-
-    float czasOdZapytania = 0f;
     public override (int x, int y) WykonajRuch(int[][] plansza)
     {
-        if (czasOdZapytania > czasOdpowiedzi)
+        if (CzyOstatniaIteracja())
         {
-            czasOdZapytania = 0f;
 
             int liczbaWolnych = 0;
             for(int i=0;i<plansza.Length;i++)
@@ -38,7 +34,6 @@ public class LosowyRuch : Gracz
                 }
             }
         } 
-        czasOdZapytania += Time.deltaTime;
         return BrakRuchu;
     }
 
