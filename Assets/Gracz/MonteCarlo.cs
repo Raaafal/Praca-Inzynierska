@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 public class MonteCarlo : Gracz
 {
-    float czasOdpowiedzi = 0.5f;
-
-    float czasOdZapytania = 0f;
 
     class Statystyki
     {
@@ -44,63 +42,43 @@ public class MonteCarlo : Gracz
     }
     List<((int x, int y) ruch, Statystyki statystyki)> ocenyRuchów;
 
-    public override (int x, int y) WykonajRuch(LogikaPlanszy plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
-        if (czasOdZapytania < czasOdpowiedzi )
+        LogikaPlanszy symulacja;
+        Debug.Log("ruch monte carlo");
+        if (ocenyRuchów == null)
         {
-            czasOdZapytania += Time.deltaTime;
-            LogikaPlanszy symulacja;
-            Debug.Log("ruch monte carlo");
-            if (ocenyRuchów == null)
-            {
-                Debug.Log("ładuj ruchy");
-                ocenyRuchów = new List<((int x, int y) ruch, Statystyki statystyki)>();
-                for (int i = 0; i < plansza.Plansza.Length; ++i)
-                    for (int j = 0; j < plansza.Plansza[i].Length; ++j)
-                        if (LogikaPlanszy.CzyWolne(plansza.Plansza[i][j]))
-                            ocenyRuchów.Add((ruch: (x: i, y: j), statystyki: new Statystyki(0, 0)));
-                Debug.Log("brak ruchów");
-            }
-            foreach(var ruch in ocenyRuchów)
-            {
-                Debug.Log("symuluj");
-                Debug.Log("testuj ruch" + ruch);
-                Gracz ja= new LosowyRuch(), rywal=new LosowyRuch();
-                symulacja = new LogikaPlanszy(plansza,ja,rywal);
-                symulacja.ZarejestrujRuch(ruch.ruch.x, ruch.ruch.y, null);
-                ruch.Item2.Rejestruj(symulacja.Symuluj()!=ja);
-                Debug.Log("po rejestracji: " + ruch.statystyki.wygrane + " " + ruch.statystyki.przegrane);
-
-            }
-            return BrakRuchu;
+            Debug.Log("ładuj ruchy");
+            ocenyRuchów = new List<((int x, int y) ruch, Statystyki statystyki)>();
+            for (int i = 0; i < plansza.Plansza.Length; ++i)
+                for (int j = 0; j < plansza.Plansza[i].Length; ++j)
+                    if (LogikaPlanszy.CzyWolne(plansza.Plansza[i][j]))
+                        ocenyRuchów.Add((ruch: (x: i, y: j), statystyki: new Statystyki(0, 0)));
+            Debug.Log("brak ruchów");
         }
-        else
+        var najlebszyRuch = ocenyRuchów[0];
+        foreach (var ruch in ocenyRuchów)
         {
-            czasOdZapytania = 0f;
-            (int x, int y) najleprszyRuch = ocenyRuchów[0].ruch;
-            Statystyki najleszaOcena = ocenyRuchów[0].statystyki;
-            foreach(var ruch in ocenyRuchów)
+            Debug.Log("symuluj");
+            Debug.Log("testuj ruch" + ruch);
+            Gracz ja = new LosowyRuch(), rywal = new LosowyRuch();
+            ja.Ograniczenia.MaksCzasNaRuch = 0;
+            rywal.Ograniczenia.MaksCzasNaRuch = 0;
+            symulacja = new LogikaPlanszy(plansza, ja, rywal);
+            symulacja.ZarejestrujRuch(ruch.ruch.x, ruch.ruch.y, null);
+            ruch.statystyki.Rejestruj(symulacja.Symuluj() != ja);
+            Debug.Log("po rejestracji: " + ruch.statystyki.wygrane + " " + ruch.statystyki.przegrane);
+            if (najlebszyRuch.statystyki.Ocena < ruch.statystyki.Ocena)
             {
-                Debug.Log("odczytanie oceny: " + ruch.Item2.wygrane + " " + ruch.statystyki.przegrane);
-                try
-                {
-                    Debug.Log("ocena: " + ruch.statystyki.Ocena + " => " + ruch.ruch);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("ocena: nieocenione => " + ruch.ruch);
-
-                }
-                if (najleszaOcena < ruch.statystyki)
-                {
-                    najleszaOcena = ruch.statystyki;
-                    najleprszyRuch = ruch.ruch;
-                }
+                najlebszyRuch = ruch;
             }
-                    Debug.Log("najlepsza ocena: " + najleszaOcena + " => " + najleprszyRuch);
+
+        }
+        if (CzyOstatniaIteracja())
+        {
             ocenyRuchów = null;
-            return najleprszyRuch;
         }
+        return najlebszyRuch.ruch;
     }
 
     public MonteCarlo() : base()
