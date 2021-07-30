@@ -21,7 +21,7 @@ public class Ja : Gracz
         if(czyMojRuch)
         klikniecie = new Klik(x, y);
     }
-    public override (int x, int y) WykonajRuch(int[][] plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
         czyMojRuch = klikniecie == null;
         var ruch =  Gracz.BrakRuchu;

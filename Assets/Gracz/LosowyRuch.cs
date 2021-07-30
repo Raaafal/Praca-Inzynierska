@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class LosowyRuch : Gracz
 {
-    public override (int x, int y) WykonajRuch(int[][] plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
+        int[][] uklad = plansza.Plansza;
         if (CzyOstatniaIteracja())
         {
 
             int liczbaWolnych = 0;
-            for(int i=0;i<plansza.Length;i++)
+            for(int i=0;i<uklad.Length;i++)
             {
-                for (int j = 0; j < plansza[i].Length; j++)
+                for (int j = 0; j < uklad[i].Length; j++)
                 {
-                    if (LogikaPlanszy.CzyWolne( plansza[i][j])) liczbaWolnych++;
+                    if (LogikaPlanszy.CzyWolne( uklad[i][j])) liczbaWolnych++;
                 }
             }
             int los = Random.Range(0, liczbaWolnych - 1);
-            for (int i = 0; i < plansza.Length; i++)
+            for (int i = 0; i < uklad.Length; i++)
             {
-                for (int j = 0; j < plansza[i].Length; j++)
+                for (int j = 0; j < uklad[i].Length; j++)
                 {
-                    if (LogikaPlanszy.CzyWolne(plansza[i][j]))
+                    if (LogikaPlanszy.CzyWolne(uklad[i][j]))
                     {
                         if (los == 0)
                         {

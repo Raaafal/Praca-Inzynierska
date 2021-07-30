@@ -14,7 +14,7 @@ public class Gracz
     public virtual int[] ObslugiwaneRozmiaryPlansz { get; } = new int[] { 3, 4, 5, 6, 8, 10 };
     public Color KolorKrolowej { get; set; } = new Color(1, 1, 1, 1);
     public static (int x, int y) BrakRuchu { get; } = (-1, -1);
-    public virtual (int x, int y) WykonajRuch(int[][] plansza)
+    public virtual (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
         return BrakRuchu;
     }
@@ -22,22 +22,22 @@ public class Gracz
     private uint iteracja = 0;
     public float PozostalyCzas=>pozostalyCzas;
     public float Iteracja => iteracja;
-    (int x, int y) zatwierdzonyRuch = BrakRuchu;
+    (int x, int y) planowanyRuch = BrakRuchu;
     public virtual (int x, int y) WykonajRuch(LogikaPlanszy plansza)
     {
         if (iteracja < Ograniczenia.MaksIteracji || Ograniczenia.MaksIteracji == 0)
         {
             pozostalyCzas -= Time.deltaTime;
-            (int x, int y) ruch = WykonajRuch(plansza.Plansza);
+            (int x, int y) ruch = PlanujRuch(plansza);
             if (ruch != BrakRuchu)
             {
-                zatwierdzonyRuch = ruch;
+                planowanyRuch = ruch;
             }
             ++iteracja;
             if (pozostalyCzas < 0)
             {
                 pozostalyCzas += Ograniczenia.MaksCzasNaRuch;
-                if (zatwierdzonyRuch == BrakRuchu)
+                if (planowanyRuch == BrakRuchu)
                 {
                     for(int x = 0; x < plansza.Wielkosc; ++x)
                     {
@@ -50,8 +50,8 @@ public class Gracz
                         }
                     }
                 }
-                ruch = zatwierdzonyRuch;
-                zatwierdzonyRuch = BrakRuchu;
+                ruch = planowanyRuch;
+                planowanyRuch = BrakRuchu;
                 return ruch;
             }
         }
@@ -59,7 +59,7 @@ public class Gracz
         {
             iteracja = 0;
             pozostalyCzas = Ograniczenia.MaksCzasNaRuch;
-            return zatwierdzonyRuch;
+            return planowanyRuch;
         }
         return BrakRuchu;
 
