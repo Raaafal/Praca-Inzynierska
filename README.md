@@ -1,3 +1,4 @@
+[English version](https://github.com/Raaafal/Praca-Inzynierska/blob/feature_dost%C4%99pDoAplikacji/REDMEN.md)
 
 # n Królowych mod 2
 ## Instalacja
