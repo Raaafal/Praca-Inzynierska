@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LosowyRuch : Gracz
 {
+    public LosowyRuch(float czas):this()
+    {
+        czasOdpowiedzi = czas;
+    }
     float czasOdpowiedzi = 0.5f;
 
     float czasOdZapytania = 0f;
