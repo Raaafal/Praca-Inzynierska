@@ -104,7 +104,7 @@ public class LogikaPlanszy
         if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.x][wykonanyRuch.y])
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
-            ZarejestrujRuch(wykonanyRuch.x, wykonanyRuch.y,gracz);
+            ZarejestrujRuch(wykonanyRuch.x, wykonanyRuch.y);
             EventWykonanyRuch?.Invoke(wykonanyRuch.x,wykonanyRuch.y,gracz);
             Ruch = !Ruch;
             ostatniRuch = wykonanyRuch;
@@ -165,7 +165,7 @@ public class LogikaPlanszy
         }
     }*/
 
-    public virtual void ZarejestrujRuch(int x,int y,Gracz gracz)
+    public virtual void ZarejestrujRuch(int x,int y)
     {
         
         for(int i = 0; i < wielkosc; i++)
@@ -185,6 +185,27 @@ public class LogikaPlanszy
             }
         }
         plansza[x][y] = PoleZajete;
+    }
+    public static void ZarejestrujRuch(int x, int y,int [][]jakasPlansza)
+    {
+
+        for (int i = 0; i < jakasPlansza.Length; i++)
+        {
+            for (int j = 0; j < jakasPlansza[i].Length; j++)
+            {
+                if (jakasPlansza[i][j] != PoleZajete)
+                {
+                    int localX = x - i;
+                    int localY = y - j;
+                    if (Mathf.Abs(localX * localX * localY) == Mathf.Abs(localX * localY * localY))
+                    {
+                        jakasPlansza[i][j] += 1;
+                    }
+
+                }
+            }
+        }
+        jakasPlansza[x][y] = PoleZajete;
     }
     /*
     void OdswierzKolory()
