@@ -72,16 +72,17 @@ public class Przeszukiwanie : Gracz
                 //glebokoscAnalizyNajlepszegoRuchu = glebokoscPrzeszukiwania;
             }
             
-            if (czasOdZapytania >= czasOdpowiedzi)
+            /*if (czasOdZapytania >= czasOdpowiedzi)
             {
                 Debug.Log(zabrakloCzasu.ToString());
-            }
-            Debug.Log("Przeszukiwanie: Wysokość drzewa=" + glebokoscPrzeszukiwania + "  czasOdZapytania=" + czasOdZapytania + "/" + czasOdpowiedzi + "   czy zabrakło czasu na obliczenia: " + zabrakloCzasu);
+            }*/
+            Debug.Log("Przeszukiwanie: Wysokość drzewa=" + glebokoscPrzeszukiwania + "  czasOdZapytania=" + czasOdZapytania + "/" + czasOdpowiedzi + "   czy zabrakło czasu na obliczenia: " + zabrakloCzasu
+                +"   szansa na wygraną (Dla optymalnej taktyki przeciwnika)="+(aktualnieNajlepszyRuch.jakosc*100f)+"%");
             glebokoscPrzeszukiwania++;
             
             //czasOdZapytania = czasOdpowiedzi;
         }
-        if (czasOdZapytania >= czasOdpowiedzi||glebokoscPrzeszukiwania>liczbaPolBezPionka)
+        if (czasOdZapytania >= czasOdpowiedzi||glebokoscPrzeszukiwania>liczbaPolBezPionka+1)
         {
             Debug.Log(liczbaPolBezPionka);
             var ret = aktualnieNajlepszyRuch.Item1;
@@ -140,7 +141,7 @@ public class Przeszukiwanie : Gracz
                         najlepszyRuchWGalezi = ((i,j),najlepszyRuchR.jakosc);//TODO probabilistyczna średnia ruchów, zakładamy, że przeciwnik porusza się losowo, a my optymalnie
                     } else if (!ruchAlgorytmu&&najlepszyRuchWGalezi.jakosc >= najlepszyRuchR.jakosc)
                     {
-                        najlepszyRuchWGalezi = ((i, j), najlepszyRuchR.jakosc);//minimax
+                        najlepszyRuchWGalezi = ((i, j),najlepszyRuchR.jakosc);//minimax
                     }
                     sumaCzasowDzieci += czasR;
 
