@@ -21,8 +21,9 @@ public class Przeszukiwanie : Gracz
     float czasDzialaniaNaKlatke = 0.1f;
 
     ((int x, int y),float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
-    int glebokoscAnalizyNajlepszegoRuchu = 0;
+    //int glebokoscAnalizyNajlepszegoRuchu = 0;
     int glebokoscPrzeszukiwania = 1;
+    const long SecondsToTicks = 10000000;
     public override (int x, int y) WykonajRuch(int[][] plansza)
     {
         if (aktualnieNajlepszyRuch.Item1==BrakRuchu)
@@ -40,33 +41,74 @@ public class Przeszukiwanie : Gracz
                 }
             }
         }
+        int liczbaPolBezPionka = 0;
+        for (int i = 0; i < plansza.Length; i++)
+        {
+            for (int j = 0; j < plansza[i].Length; j++)
+            {
+                if (plansza[i][j] != LogikaPlanszy.PoleZajete)
+                {
+                    liczbaPolBezPionka++;
+                }
+            }
+        }
+
         if (czasOdZapytania < czasOdpowiedzi)
         {
+            //float czas = 0f;
+            bool zabrakloCzasu = false;
+            long _czasOdZapytania = (long)(SecondsToTicks * czasOdZapytania);
+            long _czasOdpowiedzi = (long)(SecondsToTicks * czasOdpowiedzi);
+            ((int x, int y), float jakosc) najlepszyRuchWPrzeszukaniu= (BrakRuchu, 0f);
+            Przeszukaj(plansza,out najlepszyRuchWPrzeszukaniu,ref _czasOdZapytania,out _, _czasOdpowiedzi,true,glebokoscPrzeszukiwania,ref zabrakloCzasu);
+            czasOdZapytania = (float)((double)_czasOdZapytania / (double)SecondsToTicks);
+            //czasOdpowiedzi = _czasOdpowiedzi / SecondsToTicks;
+
+            czasOdZapytania += Mathf.Epsilon;
+
+            if (!zabrakloCzasu|| aktualnieNajlepszyRuch.jakosc <= najlepszyRuchWPrzeszukaniu.jakosc)
+            {
+                aktualnieNajlepszyRuch = najlepszyRuchWPrzeszukaniu;
+                //glebokoscAnalizyNajlepszegoRuchu = glebokoscPrzeszukiwania;
+            }
             
+            if (czasOdZapytania >= czasOdpowiedzi)
+            {
+                Debug.Log(zabrakloCzasu.ToString());
+            }
+            Debug.Log("Przeszukiwanie: Wysokość drzewa=" + glebokoscPrzeszukiwania + "  czasOdZapytania=" + czasOdZapytania + "/" + czasOdpowiedzi + "   czy zabrakło czasu na obliczenia: " + zabrakloCzasu);
+            glebokoscPrzeszukiwania++;
+            
+            //czasOdZapytania = czasOdpowiedzi;
         }
-        if (czasOdZapytania >= czasOdpowiedzi)
+        if (czasOdZapytania >= czasOdpowiedzi||glebokoscPrzeszukiwania>liczbaPolBezPionka)
         {
+            Debug.Log(liczbaPolBezPionka);
             var ret = aktualnieNajlepszyRuch.Item1;
             aktualnieNajlepszyRuch = (BrakRuchu, 0f);
             czasOdZapytania = 0f;
             glebokoscPrzeszukiwania = 1;
-            glebokoscAnalizyNajlepszegoRuchu = 0;
+            //glebokoscAnalizyNajlepszegoRuchu = 0;
             return ret;
         }
         //czasOdZapytania += Time.deltaTime;
         return BrakRuchu;
     }
-    void Przeszukaj(int[][] plansza, out ((int x, int y), float jakosc) najlepszyRuchWGalezi,ref float czasSumaryczny,out float czas,float limitCzasu,bool ruchAlgorytmu)
+    void Przeszukaj(int[][] plansza, out ((int x, int y), float jakosc) najlepszyRuchWGalezi,ref long czasSumaryczny,out long czas,long limitCzasu,bool ruchAlgorytmu,int wysokoscDrzewa,ref bool zabrakloCzasu)
     {
-        najlepszyRuchWGalezi = (BrakRuchu, 0f);
-        if (czasSumaryczny >= limitCzasu)
+        najlepszyRuchWGalezi = ruchAlgorytmu?(BrakRuchu, 0f): (BrakRuchu, 1f);
+        if (czasSumaryczny >= limitCzasu||wysokoscDrzewa<=0)
         {
+            if (czasSumaryczny >= limitCzasu)
+            {
+                zabrakloCzasu = true;
+            }
             najlepszyRuchWGalezi = (BrakRuchu, 0.5f);
-            czas = 0f;
+            czas = 0;
             return;
         }
-        float czasStart = Time.timeSinceLevelLoad;
-        float sumaCzasowDzieci = 0f;
+        long czasStart = System.DateTime.Now.Ticks;
+        long sumaCzasowDzieci = 0;
         int[][] nowaPlansza = new int[plansza.Length][];
         for(int i = 0; i < nowaPlansza.Length; i++)
         {
@@ -91,12 +133,12 @@ public class Przeszukiwanie : Gracz
                     LogikaPlanszy.ZarejestrujRuch(i, j, nowaPlansza);
                     ////////////////////rekurencja
                     ((int x, int y), float jakosc) najlepszyRuchR;
-                    float czasR;
-                    Przeszukaj(nowaPlansza, out najlepszyRuchR,ref czasSumaryczny, out czasR, limitCzasu, !ruchAlgorytmu);
-                    if (ruchAlgorytmu&&najlepszyRuchWGalezi.jakosc < najlepszyRuchR.jakosc)
+                    long czasR;
+                    Przeszukaj(nowaPlansza, out najlepszyRuchR,ref czasSumaryczny, out czasR, limitCzasu, !ruchAlgorytmu,wysokoscDrzewa-1,ref zabrakloCzasu);
+                    if (ruchAlgorytmu&&najlepszyRuchWGalezi.jakosc <= najlepszyRuchR.jakosc)
                     {
                         najlepszyRuchWGalezi = ((i,j),najlepszyRuchR.jakosc);//TODO probabilistyczna średnia ruchów, zakładamy, że przeciwnik porusza się losowo, a my optymalnie
-                    } else if (!ruchAlgorytmu&&najlepszyRuchWGalezi.jakosc > najlepszyRuchR.jakosc)
+                    } else if (!ruchAlgorytmu&&najlepszyRuchWGalezi.jakosc >= najlepszyRuchR.jakosc)
                     {
                         najlepszyRuchWGalezi = ((i, j), najlepszyRuchR.jakosc);//minimax
                     }
@@ -111,7 +153,7 @@ public class Przeszukiwanie : Gracz
             else najlepszyRuchWGalezi = (BrakRuchu, 1f);
         } //else najlepszyRuchWGalezi= (BrakRuchu, 1f);
 
-        czas = Time.timeSinceLevelLoad - czasStart;
+        czas = System.DateTime.Now.Ticks - czasStart;
         czasSumaryczny += czas - sumaCzasowDzieci;
     }
 
