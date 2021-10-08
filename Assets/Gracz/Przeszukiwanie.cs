@@ -14,11 +14,9 @@ public class Przeszukiwanie : Gracz
         grajZ = "Przeszukiwaniem";
     }
 
-    float czasOdpowiedzi = 0.5f;
+    float czasOdpowiedzi = 0.5f;//w sekundach
 
     float czasOdZapytania = 0f;
-
-    float czasDzialaniaNaKlatke = 0.1f;
 
     ((int x, int y),float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
     //int glebokoscAnalizyNajlepszegoRuchu = 0;
