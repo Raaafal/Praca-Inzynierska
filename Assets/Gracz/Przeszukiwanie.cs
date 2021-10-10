@@ -18,33 +18,34 @@ public class Przeszukiwanie : Gracz
 
     float czasOdZapytania = 0f;
 
-    ((int x, int y),float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
+    ((int x, int y) ruch,float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
     //int glebokoscAnalizyNajlepszegoRuchu = 0;
     int glebokoscPrzeszukiwania = 1;
     const long SecondsToTicks = 10000000;
-    public override (int x, int y) WykonajRuch(int[][] plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
-        if (aktualnieNajlepszyRuch.Item1==BrakRuchu)
+
+        if (aktualnieNajlepszyRuch.ruch==BrakRuchu)
         {
-            for (int i = 0; i < plansza.Length; i++)
+            for (int i = 0; i < plansza.Plansza.Length; i++)
             {
-                for (int j = 0; j < plansza[i].Length; j++)
+                for (int j = 0; j < plansza.Plansza[i].Length; j++)
                 {
-                    if (LogikaPlanszy.CzyWolne(plansza[i][j]))
+                    if (LogikaPlanszy.CzyWolne(plansza.Plansza[i][j]))
                     {
                         aktualnieNajlepszyRuch = ((i, j), 0f);
-                        i = plansza.Length;
+                        i = plansza.Plansza.Length;
                         break;
                     }
                 }
             }
         }
         int liczbaPolBezPionka = 0;
-        for (int i = 0; i < plansza.Length; i++)
+        for (int i = 0; i < plansza.Plansza.Length; i++)
         {
-            for (int j = 0; j < plansza[i].Length; j++)
+            for (int j = 0; j < plansza.Plansza[i].Length; j++)
             {
-                if (plansza[i][j] != LogikaPlanszy.PoleZajete)
+                if (plansza.Plansza[i][j] != LogikaPlanszy.PoleZajete)
                 {
                     liczbaPolBezPionka++;
                 }
@@ -58,7 +59,7 @@ public class Przeszukiwanie : Gracz
             long _czasOdZapytania = (long)(SecondsToTicks * czasOdZapytania);
             long _czasOdpowiedzi = (long)(SecondsToTicks * czasOdpowiedzi);
             ((int x, int y), float jakosc) najlepszyRuchWPrzeszukaniu= (BrakRuchu, 0f);
-            Przeszukaj(plansza,out najlepszyRuchWPrzeszukaniu,ref _czasOdZapytania,out _, _czasOdpowiedzi,true,glebokoscPrzeszukiwania,ref zabrakloCzasu);
+            Przeszukaj(plansza.Plansza,out najlepszyRuchWPrzeszukaniu,ref _czasOdZapytania,out _, _czasOdpowiedzi,true,glebokoscPrzeszukiwania,ref zabrakloCzasu);
             czasOdZapytania = (float)((double)_czasOdZapytania / (double)SecondsToTicks);
             //czasOdpowiedzi = _czasOdpowiedzi / SecondsToTicks;
 
