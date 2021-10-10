@@ -166,15 +166,15 @@ public class Polaczenie
 
     }
     static
-    public void WyslijRuch(Tuple<int,int> ruch)
+    public void WyslijRuch((int x, int y) ruch)
     {
         NetworkStream stream = klient.GetStream();
-        Byte[] data = new byte[2] { (byte)ruch.Item1, (byte)ruch.Item2 };
+        Byte[] data = new byte[2] { (byte)ruch.x, (byte)ruch.y };
         stream.Write(data, 0, 2);
-        Debug.Log("WyślijRuch:" + (byte)ruch.Item1 + ',' + (byte)ruch.Item2);
+        Debug.Log("WyślijRuch:" + (byte)ruch.x + ',' + (byte)ruch.y);
 
     }
-    public static Tuple<int,int> OdbierzRuch()
+    public static (int x, int y) OdbierzRuch()
     {
         NetworkStream stream = klient.GetStream();
         if (stream.DataAvailable)
@@ -184,11 +184,11 @@ public class Polaczenie
             if (len < 2)
             {
                 Debug.Log("OdbierzUstawienia pusto");
-                return null;
+                return Gracz.BrakRuchu;
             }
             else
             {
-                return new Tuple<int, int>(data[0],data[1]);
+                return (x:data[0],y:data[1]);
             }
         }
         Debug.Log("OdbierzUstawienia - brak danych");

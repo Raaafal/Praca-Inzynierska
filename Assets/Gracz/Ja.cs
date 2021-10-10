@@ -21,12 +21,17 @@ public class Ja : Gracz
         if(czyMojRuch)
         klikniecie = new Klik(x, y);
     }
-    public override Tuple<int, int> WykonajRuch(int[][] plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
         czyMojRuch = klikniecie == null;
-        var ret= klikniecie==null?Gracz.BrakRuchu:new Tuple<int, int>(klikniecie.x,klikniecie.y);
+        var ruch =  Gracz.BrakRuchu;
+        if (!czyMojRuch)
+        {
+            ruch = (klikniecie.x, klikniecie.y);
+            zatwierdzRuch();
+        }
         klikniecie = null;
-        return ret;
+        return ruch;
     }
     public Ja():base()
     {
@@ -35,6 +40,7 @@ public class Ja : Gracz
         grajZ = "Sobą";
         czyNasluchujeKlikniec = true;
         bot = false;
+        Ograniczenia.MaksCzasNaRuch = Single.PositiveInfinity;
     }
     override
     public void Zakoncz(LogikaPlanszy plansza)

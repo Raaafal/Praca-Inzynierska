@@ -51,7 +51,7 @@ public class Znajomy : Gracz
         }
     }
     override
-    public Tuple<int, int> WykonajRuch(LogikaPlanszy plansza)
+    public (int x, int y) WykonajRuch(LogikaPlanszy plansza)
     {
         Debug.Log("Znajomy.WykonajRuch");
         if (!wyslanyRuch)
@@ -61,8 +61,8 @@ public class Znajomy : Gracz
             wyslanyRuch = true;
         }
         var ruch = Polaczenie.OdbierzRuch();
-        Debug.Log("Znajomy.WykonajRuch - odbierz: "+ruch.Item1+','+ruch.Item2);
-        if (ruch.Item1!=Gracz.BrakRuchu.Item1 && ruch.Item2 != Gracz.BrakRuchu.Item2)
+        Debug.Log("Znajomy.WykonajRuch - odbierz: "+ruch.x+','+ruch.y);
+        if (ruch.x!=Gracz.BrakRuchu.x && ruch.y != Gracz.BrakRuchu.y)
         {
             wyslanyRuch = false;
         }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Plansza : LogikaPlanszy
+public class Plansza : MonoBehaviour
 {
-    [SerializeField]
+    protected LogikaPlanszy logikaPlanszy;
+
+   [SerializeField]
     protected GameObject queen;
 
     [SerializeField]
@@ -63,11 +65,11 @@ public class Plansza : LogikaPlanszy
         }
     }*/
 
-    public override bool Ruch
+    public bool Ruch
     {
-        get { return ruch; }
+        get { return logikaPlanszy.Ruch; }
         set {
-            ruch = value;
+            logikaPlanszy.Ruch = value;
             /*
             var rect = pasek.uvRect;
             if (value)
@@ -86,11 +88,27 @@ public class Plansza : LogikaPlanszy
             pasekAktywnegoGracza.SygnalizujCzyjRuch(value);
         }
     }
+    protected int wielkosc => logikaPlanszy.Wielkosc;
+    protected Gracz gracz1 => logikaPlanszy.Gracz1;
+    protected Gracz gracz2 => logikaPlanszy.Gracz2;
+
+    protected void Update()
+    {
+        logikaPlanszy.Tura();
+    }
 
     // Start is called before the first frame update
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        logikaPlanszy=new LogikaPlanszy(
+            Ustawienia.WielkoscPlanszy,
+            new Ja(),
+            (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik),
+            Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy
+        );
+        logikaPlanszy.DodajObserwatoraWykonanychRuchow( ZarejestrujRuch);
+        logikaPlanszy.DodajObserwatoraKońcaGry( ()=> KoniecGry());
+
         Pola = new GameObject[wielkosc][];
         for (int i = 0; i < wielkosc; i++)
         {
@@ -141,7 +159,7 @@ public class Plansza : LogikaPlanszy
         if (gracz1.czyNasluchujeKlikniec) DodajNasluchiwaczaKlikniec(gracz1.NasluchujKlikniec);
         if (gracz2.czyNasluchujeKlikniec) DodajNasluchiwaczaKlikniec(gracz2.NasluchujKlikniec);
 
-        if (ruch)
+        if (Ruch)
         {
             gracz1.KolorKrolowej = kolorKrolowejPierwszyRuch;
             gracz2.KolorKrolowej = kolorKrolowejDrugiRuch;
@@ -180,15 +198,14 @@ public class Plansza : LogikaPlanszy
         var ri=newQueen.GetComponent<RawImage>();
         ri.color = color;
     }
-    public override void ZarejestrujRuch(int x, int y, Gracz gracz)
+    public void ZarejestrujRuch(int x, int y, Gracz gracz)
     {
         PostawKrolowa(x, y, gracz.KolorKrolowej);
-        base.ZarejestrujRuch(x, y, gracz);
         OdswierzKolory();
     }
     void OdswierzKolory()
     {
-        bool[][] zajete = MozliweRuchy();
+        bool[][] zajete = logikaPlanszy.MozliweRuchy();
         for (int i = 0; i < wielkosc; i++)
         {
             for (int j = 0; j < wielkosc; j++)
@@ -202,9 +219,8 @@ public class Plansza : LogikaPlanszy
     {
         EventKlikniecia += (x,y)=> klikniecie(x,y);
     }
-    protected override Gracz KoniecGry()
+    protected Gracz KoniecGry()
     {
-        base.KoniecGry();
         Gracz wygrany = Ruch ? gracz2 : gracz1;
 
         tekstKomunikatu.text = "Zwycięzca:\n" + wygrany.nazwa;

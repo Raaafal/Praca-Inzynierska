@@ -4,10 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LogikaPlanszy : MonoBehaviour
+public class LogikaPlanszy
 {
-    public LogikaPlanszy() { }
-    public LogikaPlanszy(LogikaPlanszy plansza,Gracz g1,Gracz g2)
+    public LogikaPlanszy()
+    {
+        gracz1 = new Ja();
+        gracz1.Inicjalizuj();
+        gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
+        gracz2.Inicjalizuj();
+        Ruch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
+
+        wielkosc = Ustawienia.WielkoscPlanszy;
+        plansza = new int[wielkosc][];
+        for (int i = 0; i < wielkosc; i++)
+        {
+            plansza[i] = new int[wielkosc];
+        }
+    }
+    public LogikaPlanszy(LogikaPlanszy plansza, Gracz g1, Gracz g2)
     {
         wielkosc = plansza.wielkosc;
         this.plansza = new int[wielkosc][];
@@ -18,17 +32,23 @@ public class LogikaPlanszy : MonoBehaviour
         gracz1 = g1;
         gracz2 = g2;
     }
-    public LogikaPlanszy(int wielkosc,Gracz g1,Gracz g2)
+    public LogikaPlanszy(int wielkosc, Gracz g1, Gracz g2,bool pierwszy=true)
     {
         this.wielkosc = wielkosc;
         plansza = new int[wielkosc][];
-        for (int i = 0; i < wielkosc; ++i)
+        for (int i = 0; i < wielkosc; i++)
+        {
             plansza[i] = new int[wielkosc];
+        }
         gracz1 = g1;
+        gracz1.Inicjalizuj();
         gracz2 = g2;
+        gracz2.Inicjalizuj();
+        ruch = pierwszy;
     }
     [SerializeField]
     protected int wielkosc = 8;
+    public int Wielkosc => wielkosc;
 
     public const int PoleZajete = -1;
 
@@ -40,8 +60,8 @@ public class LogikaPlanszy : MonoBehaviour
 
     protected bool gra = true;
 
-    protected System.Tuple<int, int> ostatniRuch=Gracz.BrakRuchu;
-    public virtual System.Tuple<int, int> OstatniRuch
+    protected (int x, int y) ostatniRuch =Gracz.BrakRuchu;
+    public virtual (int x, int y) OstatniRuch
     {
         get { return ostatniRuch; }
         set { ostatniRuch = value; }
@@ -64,75 +84,39 @@ public class LogikaPlanszy : MonoBehaviour
         set { ruch = value; }
     }
 
-    protected virtual void Start()
+    public delegate void DelegatWykonajRuch(int x, int y, Gracz gracz);
+    event DelegatWykonajRuch EventWykonanyRuch;
+    public delegate void DelegatKoniecGry();
+    event DelegatKoniecGry EventKoniecGry;
+    public void DodajObserwatoraWykonanychRuchow(DelegatWykonajRuch obserwator)
     {
-        //Ja ja = new Ja();
-        //Ja ja2 = new Ja();
-        if (gracz1 == null)
-            gracz1 = new Ja();
-        gracz1.Inicjalizuj();
-        //gracz1.preferencjeGracza = new PreferencjeGracza();
-        //gracz1.preferencjeGracza.czyPreferujePierwszyRuch = Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
-        //gracz1.preferencjeGracza.preferowanyRozmiarPlanszy = Ustawienia.WielkoscPlanszy;
-        if (gracz2 == null)
-            gracz2 = (Gracz)Activator.CreateInstance(Ustawienia.Przeciwnik);
-        gracz2.Inicjalizuj();
-        
-        /*
-        if (gracz1.preferencjeGracza != null)
-        {
-            Ruch = gracz1.preferencjeGracza.czyPreferujePierwszyRuch;
-        }
-        if (gracz2.preferencjeGracza != null)
-        {
-            Ruch = !gracz2.preferencjeGracza.czyPreferujePierwszyRuch;
-        }*/
-        Ruch= Ustawienia.PierwszyRuch == Ustawienia.Ruch.Pierwszy;
-        wielkosc = Ustawienia.WielkoscPlanszy;
-
-
-        plansza = new int[wielkosc][];
-        //base.Start();
-        for (int i = 0; i < wielkosc; i++)
-        {
-            plansza[i] = new int[wielkosc];
-            /*
-            for (int j = 0; j < wielkosc; j++)
-            {
-                plansza[i][j]=
-            }*/
-        }
+        EventWykonanyRuch += obserwator;
     }
+    public void DodajObserwatoraKońcaGry(DelegatKoniecGry obserwator)
+    {
+        EventKoniecGry += obserwator;
+    }
+
     void OdpytajGraczaORuch()
     {
         Gracz gracz = Ruch ? gracz1 : gracz2;
-        Tuple<int,int> wykonanyRuch = gracz.WykonajRuch(this);
-        if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.Item1][wykonanyRuch.Item2])
+        (int x, int y) wykonanyRuch = gracz.WykonajRuch(this);
+        if (wykonanyRuch != Gracz.BrakRuchu&&!MozliweRuchy()[wykonanyRuch.x][wykonanyRuch.y])
         {
             //PostawKrolowa(poleRuchu.Item1, poleRuchu.Item2, gracz.kolorKrolowej);
-            ZarejestrujRuch(wykonanyRuch.Item1, wykonanyRuch.Item2,gracz);
+            ZarejestrujRuch(wykonanyRuch.x, wykonanyRuch.y);
+            EventWykonanyRuch?.Invoke(wykonanyRuch.x,wykonanyRuch.y,gracz);
             Ruch = !Ruch;
             ostatniRuch = wykonanyRuch;
             //OdswierzKolory();
         }
     }
-    private void Update()
-    {
-        if (gra)
-        {
-            OdpytajGraczaORuch();
-
-            if (SprawdzCzyKoniecGry())
-            {
-                KoniecGry();
-            }
-        }
-    }
-    protected virtual Gracz KoniecGry()
+    public virtual Gracz KoniecGry()
     {
         gra = false;
         gracz1.Zakoncz(this);
         gracz2.Zakoncz(this);
+        EventKoniecGry?.Invoke();
         Gracz wygrany = Ruch ? gracz2 : gracz1;
 
         //zapisujemy statystyki dla gracza1
@@ -181,7 +165,7 @@ public class LogikaPlanszy : MonoBehaviour
         }
     }*/
 
-    public virtual void ZarejestrujRuch(int x,int y,Gracz gracz)
+    public virtual void ZarejestrujRuch(int x,int y)
     {
         
         for(int i = 0; i < wielkosc; i++)
@@ -202,6 +186,27 @@ public class LogikaPlanszy : MonoBehaviour
         }
         plansza[x][y] = PoleZajete;
     }
+    public static void ZarejestrujRuch(int x, int y,int [][]jakasPlansza)
+    {
+
+        for (int i = 0; i < jakasPlansza.Length; i++)
+        {
+            for (int j = 0; j < jakasPlansza[i].Length; j++)
+            {
+                if (jakasPlansza[i][j] != PoleZajete)
+                {
+                    int localX = x - i;
+                    int localY = y - j;
+                    if (Mathf.Abs(localX * localX * localY) == Mathf.Abs(localX * localY * localY))
+                    {
+                        jakasPlansza[i][j] += 1;
+                    }
+
+                }
+            }
+        }
+        jakasPlansza[x][y] = PoleZajete;
+    }
     /*
     void OdswierzKolory()
     {
@@ -214,7 +219,7 @@ public class LogikaPlanszy : MonoBehaviour
 
         }
     }*/
-    protected bool[][] MozliweRuchy()
+    public bool[][] MozliweRuchy()
     {
         bool[][] zajete = new bool[wielkosc][];
         for (int i = 0; i < wielkosc; i++)

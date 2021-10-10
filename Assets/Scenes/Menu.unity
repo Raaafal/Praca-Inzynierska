@@ -393,9 +393,9 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1080, y: 1920}
+  m_ReferenceResolution: {x: 1150, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2895,6 +2895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PoleZaproszenia: {fileID: 249642695}
+  PrzyciskZaproszenia: {fileID: 0}
 --- !u!1 &2036883640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3067,7 +3068,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2028912148}
-        m_MethodName: WyenerujZaproszenie
+        m_MethodName: WygenerujZaproszenie
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
