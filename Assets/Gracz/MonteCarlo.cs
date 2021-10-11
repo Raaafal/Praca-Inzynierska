@@ -65,7 +65,7 @@ public class MonteCarlo : Gracz
             ja.Ograniczenia.MaksCzasNaRuch = 0;
             rywal.Ograniczenia.MaksCzasNaRuch = 0;
             symulacja = new LogikaPlanszy(plansza, ja, rywal);
-            symulacja.ZarejestrujRuch(ruch.ruch.x, ruch.ruch.y, null);
+            symulacja.ZarejestrujRuch(ruch.ruch.x, ruch.ruch.y);
             ruch.statystyki.Rejestruj(symulacja.Symuluj() != ja);
             Debug.Log("po rejestracji: " + ruch.statystyki.wygrane + " " + ruch.statystyki.przegrane);
             if (najlebszyRuch.statystyki.Ocena < ruch.statystyki.Ocena)

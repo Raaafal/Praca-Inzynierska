@@ -22,7 +22,12 @@ public class Przeszukiwanie : Gracz
     //int glebokoscAnalizyNajlepszegoRuchu = 0;
     int glebokoscPrzeszukiwania = 1;
     const long SecondsToTicks = 10000000;
-    public override (int x, int y) WykonajRuch(int[][] plansza)
+
+    public override (int x, int y) WykonajRuch(LogikaPlanszy plansza)
+    {
+        return WykonajRuch(plansza.Plansza);
+    }
+    (int x, int y) WykonajRuch(int[][] plansza)
     {
         if (aktualnieNajlepszyRuch.Item1==BrakRuchu)
         {
