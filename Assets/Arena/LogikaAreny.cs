@@ -117,7 +117,8 @@ public class LogikaAreny : MonoBehaviour
     }
     protected Type[] uczestnicy = new Type[] {//lista wszytkich botów
         typeof(LosowyRuch),
-        typeof(MonteCarlo)
+        typeof(MonteCarlo),
+        typeof(Przeszukiwanie)
     };
     public Statystyka[,] statystyki;
     protected LogikaPlanszy plansza;
