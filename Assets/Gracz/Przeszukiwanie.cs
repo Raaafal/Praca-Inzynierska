@@ -10,18 +10,18 @@ public class Przeszukiwanie : Gracz
     }
     public Przeszukiwanie() : base()
     {
-        nazwa = "Przeszukiwanie";
-        grajZ = "Przeszukiwaniem";
+        nazwa = "Minimax";
+        grajZ = "Minimaxem";
     }
 
-    float czasOdpowiedzi = 0.5f;//w sekundach
+    protected float czasOdpowiedzi = 0.5f;//w sekundach
 
-    float czasOdZapytania = 0f;
+    protected float czasOdZapytania = 0f;
 
-    ((int x, int y) ruch,float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
+    protected ((int x, int y) ruch,float jakosc) aktualnieNajlepszyRuch = (BrakRuchu,0f);
     //int glebokoscAnalizyNajlepszegoRuchu = 0;
-    int glebokoscPrzeszukiwania = 1;
-    const long SecondsToTicks = 10000000;
+    protected int glebokoscPrzeszukiwania = 1;
+    protected const long SecondsToTicks = 10000000;
     public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
 
@@ -94,7 +94,7 @@ public class Przeszukiwanie : Gracz
         //czasOdZapytania += Time.deltaTime;
         return BrakRuchu;
     }
-    void Przeszukaj(int[][] plansza, out ((int x, int y), float jakosc) najlepszyRuchWGalezi,ref long czasSumaryczny,out long czas,long limitCzasu,bool ruchAlgorytmu,int wysokoscDrzewa,ref bool zabrakloCzasu)
+    protected virtual void Przeszukaj(int[][] plansza, out ((int x, int y), float jakosc) najlepszyRuchWGalezi,ref long czasSumaryczny,out long czas,long limitCzasu,bool ruchAlgorytmu,int wysokoscDrzewa,ref bool zabrakloCzasu)
     {
         najlepszyRuchWGalezi = ruchAlgorytmu?(BrakRuchu, 0f): (BrakRuchu, 1f);
         if (czasSumaryczny >= limitCzasu||wysokoscDrzewa<=0)

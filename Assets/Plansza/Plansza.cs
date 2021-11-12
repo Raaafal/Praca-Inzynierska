@@ -202,6 +202,7 @@ public class Plansza : MonoBehaviour
     {
         PostawKrolowa(x, y, gracz.KolorKrolowej);
         OdswierzKolory();
+        pasekAktywnegoGracza.SygnalizujCzyjRuch(!logikaPlanszy.Ruch);
     }
     void OdswierzKolory()
     {
