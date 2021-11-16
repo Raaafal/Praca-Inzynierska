@@ -21,12 +21,17 @@ public class Ja : Gracz
         if(czyMojRuch)
         klikniecie = new Klik(x, y);
     }
-    public override Tuple<int, int> WykonajRuch(int[][] plansza)
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
         czyMojRuch = klikniecie == null;
-        var ret= klikniecie==null?Gracz.BrakRuchu:new Tuple<int, int>(klikniecie.x,klikniecie.y);
+        var ruch =  Gracz.BrakRuchu;
+        if (!czyMojRuch)
+        {
+            ruch = (klikniecie.x, klikniecie.y);
+            zatwierdzRuch();
+        }
         klikniecie = null;
-        return ret;
+        return ruch;
     }
     public Ja():base()
     {
@@ -35,12 +40,23 @@ public class Ja : Gracz
         grajZ = "Sobą";
         czyNasluchujeKlikniec = true;
         bot = false;
+        Ograniczenia.MaksCzasNaRuch = Single.PositiveInfinity;
     }
     override
     public void Zakoncz(LogikaPlanszy plansza)
     {
 
         Gracz wygrany = plansza.Ruch ? plansza.Gracz2 : plansza.Gracz1;
-        Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+        if(plansza.Gracz1 is Ja && plansza.Gracz2 is Ja)
+        {
+            if (this == wygrany)
+            {
+                Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+            }
+        }
+        else
+        {
+            Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+        }
     }
 }

@@ -1,40 +1,39 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class LosowyRuch : Gracz
 {
-    public LosowyRuch(float czas):this()
+    private RNGCryptoServiceProvider generator = new RNGCryptoServiceProvider();
+    private System.Random random = new System.Random();
+    public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
-        czasOdpowiedzi = czas;
-    }
-    float czasOdpowiedzi = 0.5f;
-
-    float czasOdZapytania = 0f;
-    public override System.Tuple<int, int> WykonajRuch(int[][] plansza)
-    {
-        if (czasOdZapytania > czasOdpowiedzi)
+        int[][] uklad = plansza.Plansza;
+        if (CzyOstatniaIteracja())
         {
-            czasOdZapytania = 0f;
 
             int liczbaWolnych = 0;
-            for(int i=0;i<plansza.Length;i++)
+            for(int i=0;i<uklad.Length;i++)
             {
-                for (int j = 0; j < plansza[i].Length; j++)
+                for (int j = 0; j < uklad[i].Length; j++)
                 {
-                    if (LogikaPlanszy.CzyWolne( plansza[i][j])) liczbaWolnych++;
+                    if (LogikaPlanszy.CzyWolne( uklad[i][j])) liczbaWolnych++;
                 }
             }
-            int los = Random.Range(0, liczbaWolnych - 1);
-            for (int i = 0; i < plansza.Length; i++)
+            var losoweBajty = new byte[sizeof(int)];
+            generator.GetNonZeroBytes(losoweBajty);
+            int los = (Math.Abs(BitConverter.ToInt32(losoweBajty,0)))%liczbaWolnych;
+            for (int i = 0; i < uklad.Length; i++)
             {
-                for (int j = 0; j < plansza[i].Length; j++)
+                for (int j = 0; j < uklad[i].Length; j++)
                 {
-                    if (LogikaPlanszy.CzyWolne(plansza[i][j]))
+                    if (LogikaPlanszy.CzyWolne(uklad[i][j]))
                     {
                         if (los == 0)
                         {
-                            return new System.Tuple<int, int>(i, j);
+                            return (x: i, y: j);
                         }
                         los--;
                     }
@@ -42,7 +41,6 @@ public class LosowyRuch : Gracz
                 }
             }
         } 
-        czasOdZapytania += Time.deltaTime;
         return BrakRuchu;
     }
 
@@ -50,5 +48,6 @@ public class LosowyRuch : Gracz
     {
         nazwa = "Losowy Ruch";
         grajZ = "Losowym Ruchem";
+        Debug.Log(nazwa);
     }
 }

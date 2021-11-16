@@ -17,7 +17,9 @@ public class WyborPrzeciwnika : MonoBehaviour
         typeof(Ja),
         typeof(LosowyRuch),
         typeof(Znajomy),
-        typeof(MonteCarlo)
+        typeof(MonteCarlo),
+        typeof(Przeszukiwanie),
+        typeof(PrzeszukiwanieUlepszone)
     };
 
     private void Start()
