@@ -7,6 +7,7 @@ using UnityEngine;
 public class LosowyRuch : Gracz
 {
     private RNGCryptoServiceProvider generator = new RNGCryptoServiceProvider();
+    private System.Random random = new System.Random();
     public override (int x, int y) PlanujRuch(LogikaPlanszy plansza)
     {
         int[][] uklad = plansza.Plansza;
@@ -22,8 +23,8 @@ public class LosowyRuch : Gracz
                 }
             }
             var losoweBajty = new byte[sizeof(int)];
-            generator.GetBytes(losoweBajty);
-            int los = BitConverter.ToInt32(losoweBajty,0)%liczbaWolnych;
+            generator.GetNonZeroBytes(losoweBajty);
+            int los = (Math.Abs(BitConverter.ToInt32(losoweBajty,0)))%liczbaWolnych;
             for (int i = 0; i < uklad.Length; i++)
             {
                 for (int j = 0; j < uklad[i].Length; j++)
@@ -47,5 +48,6 @@ public class LosowyRuch : Gracz
     {
         nazwa = "Losowy Ruch";
         grajZ = "Losowym Ruchem";
+        Debug.Log(nazwa);
     }
 }
