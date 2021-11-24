@@ -149,12 +149,17 @@ public class Polaczenie
         Debug.Log("OdbierzUstawienia - brak danych");
         return null;
     }
-    public static void WyślijUstawienia()
+    public static bool WyślijUstawienia()
     {
+        if(null == klient)
+        {
+            return false;
+        }
         NetworkStream stream = klient.GetStream();
         Byte[] data = new byte[2] { (byte)Ustawienia.WielkoscPlanszy, Ustawienia.PierwszyRuch==Ustawienia.Ruch.Pierwszy? (byte)0 : (byte)1 };//ustawienia z punktu patrzenia rywala dla niego samego
         stream.Write(data, 0, 2);
         Debug.Log("WyślijUstawoienia:" + data);
+        return true;
     }
     static
     public void WyslijRuch(int x, int y)
@@ -166,16 +171,24 @@ public class Polaczenie
 
     }
     static
-    public void WyslijRuch((int x, int y) ruch)
+    public bool WyslijRuch((int x, int y) ruch)
     {
+        if(null == klient)
+        {
+            return false;
+        }
         NetworkStream stream = klient.GetStream();
         Byte[] data = new byte[2] { (byte)ruch.x, (byte)ruch.y };
         stream.Write(data, 0, 2);
         Debug.Log("WyślijRuch:" + (byte)ruch.x + ',' + (byte)ruch.y);
-
+        return true;
     }
     public static (int x, int y) OdbierzRuch()
     {
+        if(null == klient)
+        {
+            return Gracz.BrakRuchu;
+        }
         NetworkStream stream = klient.GetStream();
         if (stream.DataAvailable)
         {
