@@ -99,6 +99,13 @@ public class LogikaAreny : MonoBehaviour
         {
             this.Pierwszy.wygrane += Convert.ToInt32(pierwszy);
             Drugi.wygrane += Convert.ToInt32(!pierwszy);
+#if UNITY_EDITOR
+            int liczbaGier = Pierwszy.wygrane + Drugi.wygrane;
+            if (liczbaGier == 10|| liczbaGier == 20 || liczbaGier == 30|| liczbaGier == 100 || liczbaGier == 1000)
+            {
+                Debug.Log("Statystyki_: " + Pierwszy.wygrane + ":" + Drugi.wygrane);
+            }
+#endif
         }
         public void RejestrujIteracje(bool pierwszy)
         {
@@ -106,7 +113,7 @@ public class LogikaAreny : MonoBehaviour
             Drugi.iteracje += Convert.ToInt32(!pierwszy);
         }
     }
-    protected int wielkoscPlanszy = 4;
+    protected int wielkoscPlanszy = 6;
     protected List<(int pierwszy,int drugi)> rozgrywki=new List<(int pierwszy, int drugi)>();
     protected int obecniGracze = 0;
     public (int pierwszy, int drugi) ObecniGracze {
