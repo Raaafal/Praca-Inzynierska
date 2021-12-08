@@ -25,7 +25,7 @@ public class Polaczenie
     public int PostawSerwer()
     {
         if (serwer != null)
-            serwer.Stop();
+            ZatrzymajSerwer();
         try
         {
             serwer = new TcpListener(IPAddress.Any, domyslnyPort);
@@ -47,17 +47,21 @@ public class Polaczenie
     static
     void CzekajNaKlienta(IAsyncResult async)
     {
+        if (!serwerPostawiony)
+        {
+            return;
+        }
         Debug.Log("Klient się pojawił");
         TcpListener listener = (TcpListener)async.AsyncState;
         klient = listener.EndAcceptTcpClient(async);
-        Debug.Log("server: new client");
+        Debug.Log("Dodano klienta");
     }
 
     static
     public void ZatrzymajSerwer()
     {
-        serwer.Stop();
         serwerPostawiony = false;
+        serwer.Stop();
         Debug.Log("zarzymano serwer");
     }
     static
@@ -84,45 +88,46 @@ public class Polaczenie
     {
         if (klient != null)
             klient.Close();
+        Debug.Log("Zatrzymano klienta");
+    }
+    static public bool czyZawieraHosta(IPAddress[] adresy, int port)
+    {
+        if (null == serwer || !serwerPostawiony)
+        {
+            return false;
+        }
+        IPAddress[] adresySerwera = Dns.GetHostAddresses(Dns.GetHostName());
+        int portSerwera = ((IPEndPoint)serwer.LocalEndpoint).Port;
+        if (port != portSerwera)
+        {
+            return false;
+        }
+        foreach (var ip in adresy)
+        {
+            foreach (var ipSerwera in adresySerwera)
+            {
+                if (ip.Equals( ipSerwera))
+                {
+                    Debug.Log("ips: " + ip + "," + ipSerwera);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     static 
     public bool Polacz(IPAddress[]serwery,int port)
     {
-        if (serwer != null)
+        if (czyZawieraHosta(serwery, port))
         {
-            IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
-            int portSerwera = ((IPEndPoint)serwer.LocalEndpoint).Port;
-            if (port == portSerwera)
-            {
-                foreach (var ipSerwera in serwery)
-                    foreach (var ipHosta in ips)
-                    {
-                        if (ipHosta.Equals(ipSerwera))
-                        {
-                            if (serwerPostawiony)
-                            {
-                                Debug.Log("połącz - już postawiono serwer");
-                                return true;
-                            }
-                            else
-                            {
-                                serwer.Start();
-                                serwerPostawiony = true;
-                                Debug.Log("połącz - postawiono serwer");
-                                return true;
-                            }
-                        }
-                    }
-            }
+            Debug.Log("Połączono ze sobą");
+            return true;
         }
         if (serwerPostawiony)
         {
-            Debug.Log("połącz - wyłączono serwer");
-            serwer.Stop();
+            ZatrzymajSerwer();
         }
-        Debug.Log("połącz - postaw klienta");
-        return PostawKlienta(serwery, port);
-
+        return PostawKlienta(serwery,port);
     }
 
     public static PreferencjeGracza OdbierzUstawienia()
@@ -153,6 +158,7 @@ public class Polaczenie
     {
         if(null == klient)
         {
+            Debug.Log("WyślijUstawoienia: brak klienta");
             return false;
         }
         NetworkStream stream = klient.GetStream();
@@ -175,6 +181,7 @@ public class Polaczenie
     {
         if(null == klient)
         {
+            Debug.Log("WyslijRuch: brak klienta");
             return false;
         }
         NetworkStream stream = klient.GetStream();
@@ -187,6 +194,7 @@ public class Polaczenie
     {
         if(null == klient)
         {
+            Debug.Log("OdbierzRuch: brak klienta");
             return Gracz.BrakRuchu;
         }
         NetworkStream stream = klient.GetStream();
