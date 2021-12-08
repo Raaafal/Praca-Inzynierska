@@ -47,6 +47,16 @@ public class Ja : Gracz
     {
 
         Gracz wygrany = plansza.Ruch ? plansza.Gracz2 : plansza.Gracz1;
-        Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+        if(plansza.Gracz1 is Ja && plansza.Gracz2 is Ja)
+        {
+            if (this == wygrany)
+            {
+                Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+            }
+        }
+        else
+        {
+            Statystyki.ZapiszGre(plansza.Gracz2.GetType(), wygrany.GetType().Equals(plansza.Gracz1.GetType()));
+        }
     }
 }

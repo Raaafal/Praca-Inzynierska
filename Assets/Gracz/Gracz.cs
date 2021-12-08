@@ -11,7 +11,7 @@ public class Gracz
     }
     public OgraniczeniaGracza Ograniczenia=new OgraniczeniaGracza();
     public PreferencjeGracza preferencjeGracza;
-    public virtual int[] ObslugiwaneRozmiaryPlansz { get; } = new int[] { 3, 4, 5, 6, 8, 10 };
+    public virtual int[] ObslugiwaneRozmiaryPlansz { get; } = new int[] { 4, 6, 8, 10, 12, 14 };
     public Color KolorKrolowej { get; set; } = new Color(1, 1, 1, 1);
     public static (int x, int y) BrakRuchu { get; } = (-1, -1);
     public virtual (int x, int y) PlanujRuch(LogikaPlanszy plansza)
