@@ -11,6 +11,7 @@ public class Znajomy : Gracz
         bot = false;
     }
     bool wyslanyRuch = false;
+    bool wyslaneUstawienia = false;
     override
     public int[] ObslugiwaneRozmiaryPlansz
     {
@@ -47,12 +48,20 @@ public class Znajomy : Gracz
         if (Polaczenie.czySerwer)
         {
             Debug.Log("znajomy.server.inicjuj");
-            Polaczenie.WyślijUstawienia();
+            wyslaneUstawienia=Polaczenie.WyślijUstawienia();
         }
     }
     override
     public (int x, int y) WykonajRuch(LogikaPlanszy plansza)
     {
+        if (!wyslaneUstawienia)
+        {
+            wyslaneUstawienia = Polaczenie.WyślijUstawienia();
+            if (!wyslaneUstawienia)
+            {
+                return Gracz.BrakRuchu;
+            }
+        }
         Debug.Log("Znajomy.WykonajRuch");
         if (!wyslanyRuch)
         {
